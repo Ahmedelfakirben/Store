@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase, Product, Category } from '@/lib/supabase'
 import ProductCard from '@/components/ProductCard'
 import { Search } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
-export default function HomePage() {
+function HomeContent() {
   const { t } = useLanguage()
   const searchParams = useSearchParams()
   const [products, setProducts] = useState<Product[]>([])
@@ -170,5 +170,17 @@ export default function HomePage() {
         )}
       </div>
     </div>
+  )
+}
+
+export default function HomePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
+      </div>
+    }>
+      <HomeContent />
+    </Suspense>
   )
 }
