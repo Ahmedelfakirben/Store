@@ -201,16 +201,44 @@ function HomeContent() {
                     {t.previous}
                   </button>
                   
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: Math.ceil(totalProducts / itemsPerPage) }, (_, i) => i + 1).map(page => (
-                      <button
-                        key={page}
-                        onClick={() => setCurrentPage(page)}
-                        className={`w-10 h-10 rounded-lg font-bold transition-all ${currentPage === page ? 'bg-gradient-fashion text-white shadow-md' : 'hover:bg-gray-100 text-gray-600'}`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                  <div className="flex items-center gap-1 overflow-x-auto max-w-[200px] sm:max-w-none no-scrollbar">
+                    {(() => {
+                      const totalPages = Math.ceil(totalProducts / itemsPerPage);
+                      const pages = [];
+                      const showRange = 1;
+
+                      for (let i = 1; i <= totalPages; i++) {
+                        if (
+                          i === 1 || 
+                          i === totalPages || 
+                          (i >= currentPage - showRange && i <= currentPage + showRange)
+                        ) {
+                          pages.push(i);
+                        } else if (
+                          i === currentPage - showRange - 1 || 
+                          i === currentPage + showRange + 1
+                        ) {
+                          if (!pages.includes('...')) pages.push('...');
+                        }
+                      }
+
+                      // Deduplicate ellipses
+                      const uniquePages = pages.filter((v, i, a) => v !== '...' || a[i-1] !== '...');
+
+                      return uniquePages.map((page, index) => (
+                        page === '...' ? (
+                          <span key={`dots-${index}`} className="px-2 text-gray-400 font-bold">...</span>
+                        ) : (
+                          <button
+                            key={page}
+                            onClick={() => setCurrentPage(Number(page))}
+                            className={`min-w-[40px] h-10 px-2 rounded-lg font-bold transition-all flex-shrink-0 ${currentPage === page ? 'bg-gradient-fashion text-white shadow-md' : 'hover:bg-gray-100 text-gray-600'}`}
+                          >
+                            {page}
+                          </button>
+                        )
+                      ));
+                    })()}
                   </div>
 
                   <button
