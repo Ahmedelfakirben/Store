@@ -161,7 +161,7 @@ export default function Navbar() {
                                 <span className="text-sm">WhatsApp</span>
                             </a>
                             <a 
-                                href={settings?.instagram_link || '#'}
+                                href={settings?.instagram_link || 'https://www.instagram.com/shopping__by__lina/'}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center space-x-2 border-2 border-pink-100 bg-pink-50 text-pink-700 py-4 rounded-xl font-bold active:scale-95 transition-all"

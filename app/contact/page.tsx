@@ -71,7 +71,7 @@ export default function ContactPage() {
                                     <div className="flex flex-col">
                                         <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">Instagram</p>
                                         <a 
-                                            href={settings.instagram_link}
+                                            href={settings?.instagram_link || 'https://www.instagram.com/shopping__by__lina/'}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="text-lg text-gray-800 font-bold hover:text-pink-600 transition-colors"

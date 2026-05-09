@@ -45,7 +45,7 @@ export default function InstagramSection() {
                             Suivez-nous pour découvrir nos derniers arrivages, nos looks exclusivos et toute l'actualité de **Shopping by Lina** en temps réel.
                         </p>
                         <a 
-                            href={settings?.instagram_link || '#'}
+                            href={settings?.instagram_link || 'https://www.instagram.com/shopping__by__lina/'}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center space-x-3 bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 text-white px-10 py-5 rounded-2xl font-bold text-xl shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-1"
