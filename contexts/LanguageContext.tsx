@@ -124,6 +124,7 @@ interface Translations {
     products_count: string;
     orderViaWhatsApp: string;
     finishOrderViaWhatsApp: string;
+    youMayAlsoLike: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -247,6 +248,7 @@ const translations: Record<Language, Translations> = {
         orderViaWhatsApp: 'Commander via WhatsApp',
         finishOrderViaWhatsApp: 'Finaliser via WhatsApp',
         whoWeAre: 'Qui Sommes Nous',
+        youMayAlsoLike: 'Vous pourriez aussi aimer',
     },
     es: {
         // Navigation
@@ -368,6 +370,7 @@ const translations: Record<Language, Translations> = {
         orderViaWhatsApp: 'Solicitar por WhatsApp',
         finishOrderViaWhatsApp: 'Finalizar por WhatsApp',
         whoWeAre: 'Quiénes Somos',
+        youMayAlsoLike: 'También te podría gustar',
     },
 };
 
