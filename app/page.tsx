@@ -204,7 +204,7 @@ function HomeContent() {
                   <div className="flex items-center gap-1 overflow-x-auto max-w-[200px] sm:max-w-none no-scrollbar">
                     {(() => {
                       const totalPages = Math.ceil(totalProducts / itemsPerPage);
-                      const pages = [];
+                      const pages: (number | string)[] = [];
                       const showRange = 1;
 
                       for (let i = 1; i <= totalPages; i++) {
