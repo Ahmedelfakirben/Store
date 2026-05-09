@@ -152,7 +152,7 @@ export default function CategoriesPage() {
                                     {products.length === 0 ? (
                                         <p className="text-gray-500 text-center py-8">Aucun produit dans cette catégorie</p>
                                     ) : viewMode === 'grid' ? (
-                                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+                                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 md:gap-6">
                                             {products.map((product) => (
                                                 <ProductCard key={product.id} product={product} />
                                             ))}

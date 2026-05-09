@@ -73,7 +73,7 @@ export default function ProductDetailPage() {
                 .neq('id', params.id)
                 .eq('available', true)
                 .gt('stock', 0)
-                .limit(4)
+                .limit(6)
             
             if (relatedData) setRelatedProducts(relatedData)
         }
@@ -83,7 +83,7 @@ export default function ProductDetailPage() {
     function handleWhatsAppOrder() {
         if (!product || !settings) return
 
-        const sizeInfo = selectedSize ? `Talla: ${selectedSize}` : ''
+        const sizeInfo = selectedSize ? `Taille : ${selectedSize}` : ''
         const message = `Bonjour ! J'aimerais acheter ce produit :\n\n*${product.name}*\n${sizeInfo}\nPrix : ${product.base_price} DH\n\nLien : ${window.location.href}`
         
         const encodedMessage = encodeURIComponent(message)
@@ -248,12 +248,12 @@ export default function ProductDetailPage() {
                 <div className="max-w-7xl mx-auto mt-24">
                     <div className="flex items-center justify-between mb-8">
                         <h2 className="text-3xl font-bold text-gray-900">
-                            {t.youMayAlsoLike || 'Vous pourriez aussi aimer'}
+                            {t.youMayAlsoLike}
                         </h2>
                         <div className="h-1 flex-1 bg-gray-100 mx-8 rounded-full hidden md:block"></div>
                     </div>
                     
-                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 md:gap-6">
                         {relatedProducts.map((p) => (
                             <ProductCard key={p.id} product={p} />
                         ))}
