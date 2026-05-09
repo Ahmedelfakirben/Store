@@ -12,6 +12,7 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 
 export function SettingsProvider({ children }: { children: React.ReactNode }) {
     const [settings, setSettings] = useState<CompanySettings | null>({
+        id: 'default',
         company_name: 'Shopping by Lina',
         address: 'Avenue aljoulane, Tétouan',
         phone: '0712130088',
