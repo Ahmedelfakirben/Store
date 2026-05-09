@@ -14,9 +14,11 @@ export default function InstagramSection() {
                     <div className="relative h-[400px] lg:h-auto bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 p-1">
                         <div className="w-full h-full bg-white rounded-[2.8rem] overflow-hidden relative">
                             <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-2 p-4">
-                                {[0.03, 0.06, 0.03, 0.06, 0.03, 0.06].map((opacity, i) => (
-                                     <div key={i} className="bg-gray-50/30 rounded-2xl flex items-center justify-center border border-gray-100/30">
-                                         <Instagram className="w-8 h-8" style={{ opacity }} />
+                                {/* Clean grid with no backgrounds or distracting icons */}
+                                {[1, 2, 3, 4, 5, 6].map((i) => (
+                                     <div key={i} className="rounded-2xl flex items-center justify-center">
+                                         {/* Hidden icons to keep structure but eliminate grayness */}
+                                         <Instagram className="w-8 h-8 opacity-[0.02]" />
                                      </div>
                                  ))}
                             </div>

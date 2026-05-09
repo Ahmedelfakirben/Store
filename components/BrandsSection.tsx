@@ -2,14 +2,6 @@
 
 import React from 'react'
 
-const BRANDS = [
-    { name: 'Nike', logo: 'https://logo.clearbit.com/nike.com' },
-    { name: 'Adidas', logo: 'https://logo.clearbit.com/adidas.com' },
-    { name: 'Puma', logo: 'https://logo.clearbit.com/puma.com' },
-    { name: 'Zara', logo: 'https://logo.clearbit.com/zara.com' },
-    { name: 'Mango', logo: 'https://logo.clearbit.com/mango.com' },
-    { name: 'H&M', logo: 'https://logo.clearbit.com/hm.com' },
-]
 
 export default function BrandsSection() {
     return (
@@ -21,18 +13,23 @@ export default function BrandsSection() {
                 </div>
 
                 <div className="relative group overflow-hidden">
-                    {/* Scrolling Container */}
-                    <div className="flex items-center justify-between gap-12 flex-wrap md:flex-nowrap opacity-60 hover:opacity-100 transition-opacity duration-500">
-                        {BRANDS.map((brand) => (
+                    {/* Branding Grid */}
+                    <div className="flex items-center justify-between gap-8 flex-wrap md:flex-nowrap">
+                        {[
+                            { name: 'NIKE', font: 'font-black tracking-tighter' },
+                            { name: 'adidas', font: 'font-bold lowercase' },
+                            { name: 'PUMA', font: 'font-black italic tracking-widest' },
+                            { name: 'ZARA', font: 'font-serif tracking-[0.3em]' },
+                            { name: 'MANGO', font: 'font-medium tracking-[0.2em]' },
+                            { name: 'H&M', font: 'font-bold' },
+                        ].map((brand) => (
                             <div 
                                 key={brand.name}
-                                className="flex-1 min-w-[120px] h-20 flex items-center justify-center grayscale hover:grayscale-0 transition-all duration-300 transform hover:scale-110"
+                                className="flex-1 min-w-[120px] h-20 flex items-center justify-center transition-all duration-300 transform hover:scale-110"
                             >
-                                <img 
-                                    src={brand.logo} 
-                                    alt={brand.name}
-                                    className="max-h-12 w-auto object-contain"
-                                />
+                                <span className={`text-2xl md:text-3xl text-gray-300 hover:text-gray-900 transition-colors cursor-default ${brand.font}`}>
+                                    {brand.name}
+                                </span>
                             </div>
                         ))}
                     </div>
