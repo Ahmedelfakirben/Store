@@ -133,18 +133,18 @@ export default function CategoriesPage() {
                             return (
                                 <div key={category.id} className="bg-white rounded-2xl shadow-lg p-6 lg:p-8 border border-primary-100">
                                     {/* Category Header */}
-                                    <div className="flex items-center justify-between mb-6">
+                                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                                         <div>
-                                            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+                                            <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                                                 {category.name}
                                             </h2>
                                             {category.description && (
-                                                <p className="text-gray-600 mt-1">{category.description}</p>
+                                                <p className="text-gray-600 text-sm md:text-base mt-1">{category.description}</p>
                                             )}
                                         </div>
                                         <button
                                             onClick={() => handleCategoryClick(category.id)}
-                                            className="flex items-center space-x-2 bg-gradient-fashion text-white px-6 py-3 rounded-full font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg group"
+                                            className="flex items-center justify-center space-x-2 bg-gradient-fashion text-white px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg group text-sm md:text-base"
                                         >
                                             <span>Voir tout</span>
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -155,7 +155,7 @@ export default function CategoriesPage() {
                                     {products.length === 0 ? (
                                         <p className="text-gray-500 text-center py-8">Aucun produit dans cette catégorie</p>
                                     ) : viewMode === 'grid' ? (
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                                             {products.map((product) => (
                                                 <ProductCard key={product.id} product={product} />
                                             ))}
