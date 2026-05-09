@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase, Product, Category } from '@/lib/supabase'
 import ProductCard from '@/components/ProductCard'
-import { Search } from 'lucide-react'
+import { Search, Award, Truck, ShieldCheck } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useSettings } from '@/hooks/useSettings'
 
@@ -257,6 +257,42 @@ function HomeContent() {
           </div>
         )}
       </div>
+      
+      {/* Core Values Section */}
+      <div className="max-w-7xl mx-auto px-4 py-24 border-t border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="text-center p-8 rounded-[2.5rem] bg-pink-50/50 border border-pink-100 transition-all hover:shadow-xl hover:-translate-y-1">
+                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+                      <Award className="w-8 h-8 text-pink-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">100% Original</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                      Nous ne vendons que des marques authentiques et originales. La qualité est notre priorité absolue.
+                  </p>
+              </div>
+
+              <div className="text-center p-8 rounded-[2.5rem] bg-purple-50/50 border border-purple-100 transition-all hover:shadow-xl hover:-translate-y-1">
+                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+                      <Truck className="w-8 h-8 text-purple-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Livraison Partout</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                      Où que vous soyez au Maroc, nous vous livrons à domicile dans les plus brefs délais.
+                  </p>
+              </div>
+
+              <div className="text-center p-8 rounded-[2.5rem] bg-emerald-50/50 border border-emerald-100 transition-all hover:shadow-xl hover:-translate-y-1">
+                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+                      <ShieldCheck className="w-8 h-8 text-emerald-600" />
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">Service Premium</h3>
+                  <p className="text-gray-500 text-sm leading-relaxed">
+                      Un accompagnement personnalisé via WhatsApp pour répondre à toutes vos envies mode.
+                  </p>
+              </div>
+          </div>
+      </div>
+
       <InstagramSection />
     </div>
   )
