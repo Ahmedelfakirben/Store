@@ -3,12 +3,12 @@
 import React from 'react'
 
 const BRANDS = [
-    { name: 'Nike', logo: 'https://upload.wikimedia.org/wikipedia/commons/a/a6/Logo_NIKE.svg' },
-    { name: 'Adidas', logo: 'https://upload.wikimedia.org/wikipedia/commons/2/20/Adidas_Logo.svg' },
-    { name: 'Puma', logo: 'https://upload.wikimedia.org/wikipedia/commons/8/88/Puma_complete_logo.svg' },
-    { name: 'Zara', logo: 'https://upload.wikimedia.org/wikipedia/commons/f/fd/Zara_Logo.svg' },
-    { name: 'Mango', logo: 'https://upload.wikimedia.org/wikipedia/commons/7/73/Mango-logo.svg' },
-    { name: 'H&M', logo: 'https://upload.wikimedia.org/wikipedia/commons/5/53/H%26M-Logo.svg' },
+    { name: 'Nike', logo: 'https://www.vectorlogo.zone/logos/nike/nike-ar21.svg' },
+    { name: 'Adidas', logo: 'https://www.vectorlogo.zone/logos/adidas/adidas-ar21.svg' },
+    { name: 'Puma', logo: 'https://www.vectorlogo.zone/logos/puma/puma-ar21.svg' },
+    { name: 'Zara', logo: 'https://www.vectorlogo.zone/logos/zara/zara-ar21.svg' },
+    { name: 'Mango', logo: 'https://www.vectorlogo.zone/logos/mango/mango-ar21.svg' },
+    { name: 'H&M', logo: 'https://www.vectorlogo.zone/logos/hm/hm-ar21.svg' },
 ]
 
 export default function BrandsSection() {
