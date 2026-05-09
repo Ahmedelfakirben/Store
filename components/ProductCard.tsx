@@ -51,25 +51,50 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </div>
 
                 {/* Product Info */}
-                <div className="p-4">
-                    <h3 className="font-semibold text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
-                        {product.name}
-                    </h3>
+                <div className="p-5">
+                    <div className="mb-2">
+                        <h3 className="font-bold text-gray-900 line-clamp-1 group-hover:text-primary-600 transition-colors">
+                            {product.name}
+                        </h3>
+                    </div>
 
-                    <div className="flex items-center justify-between">
-                        <div className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
-                            {(product.base_price ?? 0).toFixed(2)} DH
+                    {/* Available Sizes Row */}
+                    <div className="flex flex-wrap gap-1 mb-4 h-6 overflow-hidden">
+                        {product.product_sizes && product.product_sizes.length > 0 ? (
+                            product.product_sizes
+                                .filter(s => s.stock > 0)
+                                .map((size, idx) => (
+                                    <span key={idx} className="text-[10px] font-bold bg-gray-100 text-gray-600 px-2 py-0.5 rounded uppercase">
+                                        {size.size_name}
+                                    </span>
+                                ))
+                        ) : (
+                            <span className="text-[10px] text-gray-400 italic">Taille unique</span>
+                        )}
+                    </div>
+
+                    <div className="flex items-end justify-between gap-2">
+                        <div>
+                            <div className="text-xl font-black bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+                                {(product.base_price ?? 0).toFixed(2)} DH
+                            </div>
+                            {(product.stock ?? 0) > 0 ? (
+                                <div className="flex items-center gap-1 mt-1">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                                    <span className="text-[10px] text-green-600 font-bold uppercase tracking-tighter">
+                                        {t.available}
+                                    </span>
+                                </div>
+                            ) : (
+                                <span className="text-[10px] text-red-600 font-bold uppercase tracking-tighter">
+                                    {t.outOfStock}
+                                </span>
+                            )}
                         </div>
 
-                        {(product.stock ?? 0) > 0 ? (
-                            <span className="text-xs text-green-600 font-medium">
-                                ✓ {t.available}
-                            </span>
-                        ) : (
-                            <span className="text-xs text-red-600 font-medium">
-                                {t.outOfStock}
-                            </span>
-                        )}
+                        <div className="bg-primary-50 p-2 rounded-lg group-hover:bg-primary-600 group-hover:text-white transition-all duration-300">
+                            <ShoppingCart className="w-5 h-5 text-primary-600 group-hover:text-white" />
+                        </div>
                     </div>
                 </div>
             </div>

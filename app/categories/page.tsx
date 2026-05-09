@@ -38,9 +38,13 @@ export default function CategoriesPage() {
             for (const category of categoriesData) {
                 const { data: products } = await supabase
                     .from('products')
-                    .select('*')
+                    .select('*, product_sizes(*)')
                     .eq('category_id', category.id)
                     .eq('available', true)
+                    .gt('stock', 0)
+                    .gt('base_price', 0)
+                    .not('image_url', 'is', null)
+                    .neq('image_url', '')
                     .limit(4)
 
                 if (products) {

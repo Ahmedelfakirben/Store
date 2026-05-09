@@ -26,6 +26,7 @@ export interface Product {
     stock?: number
     barcode?: string
     created_at: string
+    product_sizes?: ProductSize[]
 }
 
 export interface ProductSize {
@@ -81,4 +82,13 @@ export interface OrderItemOnline {
     quantity: number
     unit_price: number
     created_at: string
+}
+
+export interface CompanySettings {
+    id: string
+    company_name: string
+    address: string
+    phone: string
+    instagram_link?: string
+    logo_url?: string
 }

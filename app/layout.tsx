@@ -4,16 +4,24 @@ import './globals.css'
 import { AuthProvider } from '@/hooks/useAuth'
 import { CartProvider } from '@/hooks/useCart'
 import { LanguageProvider } from '@/contexts/LanguageContext'
+import { SettingsProvider } from '@/hooks/useSettings'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
+import WhatsAppButton from '@/components/WhatsAppButton'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'LIN-Fashion - Votre Boutique Mode en Ligne',
-  description: 'Découvrez notre collection de vêtements tendance et élégants. Mode pour tous les styles.',
+  title: 'Shopping by Lina - Boutique de Mode en Ligne',
+  description: 'Vente de marques 100% originales 📍 Avenue Aljoulane, Tétouan. Découvrez notre collection tendance et élégante.',
   icons: {
-    icon: '/favicon.png',
+    icon: [
+      { url: '/logo.jpg?v=2', type: 'image/jpeg' },
+    ],
+    shortcut: ['/logo.jpg?v=2'],
+    apple: [
+      { url: '/logo.jpg?v=2', sizes: '180x180', type: 'image/jpeg' },
+    ],
   },
   manifest: '/manifest.json',
   themeColor: '#ec4899',
@@ -21,7 +29,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'LIN-Fashion',
+    title: 'Shopping by Lina',
   },
 }
 
@@ -32,17 +40,24 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
+      <head>
+        <link rel="icon" href="/logo.jpg?v=3" />
+        <link rel="apple-touch-icon" href="/logo.jpg?v=3" />
+      </head>
       <body className={inter.className}>
         <LanguageProvider>
-          <AuthProvider>
-            <CartProvider>
-              <Navbar />
-              <main className="min-h-screen">
-                {children}
-              </main>
-              <Footer />
-            </CartProvider>
-          </AuthProvider>
+          <SettingsProvider>
+            <AuthProvider>
+              <CartProvider>
+                <Navbar />
+                <main className="min-h-screen">
+                  {children}
+                </main>
+                <Footer />
+                <WhatsAppButton />
+              </CartProvider>
+            </AuthProvider>
+          </SettingsProvider>
         </LanguageProvider>
       </body>
     </html>

@@ -6,9 +6,11 @@ import { supabase, Product, Category } from '@/lib/supabase'
 import ProductCard from '@/components/ProductCard'
 import { Search } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { useSettings } from '@/hooks/useSettings'
 
 function HomeContent() {
   const { t } = useLanguage()
+  const { settings } = useSettings()
   const searchParams = useSearchParams()
   const [products, setProducts] = useState<Product[]>([])
   const [categories, setCategories] = useState<Category[]>([])
@@ -16,6 +18,9 @@ function HomeContent() {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
   const [sortBy, setSortBy] = useState<string>('newest')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalProducts, setTotalProducts] = useState(0)
+  const itemsPerPage = 20
 
   useEffect(() => {
     // Check if category is in URL params
@@ -32,15 +37,19 @@ function HomeContent() {
       .select('*')
       .order('name')
     if (data) setCategories(data)
-    fetchProducts() // Fetch products after categories are loaded
+    fetchProducts(1) // Fetch products after categories are loaded
   }
 
-  async function fetchProducts() {
+  async function fetchProducts(page = currentPage) {
     setLoading(true)
     let query = supabase
       .from('products')
-      .select('*')
+      .select('*, product_sizes(*)', { count: 'exact' })
       .eq('available', true)
+      .gt('stock', 0) // Only products with stock
+      .gt('base_price', 0) // Only products with valid price
+      .not('image_url', 'is', null) // Only products with image
+      .neq('image_url', '') // Ensure image_url is not an empty string
 
     if (selectedCategory) {
       query = query.eq('category_id', selectedCategory)
@@ -66,14 +75,25 @@ function HomeContent() {
         break
     }
 
-    const { data } = await query
+    // Pagination
+    const from = (page - 1) * itemsPerPage
+    const to = from + itemsPerPage - 1
+    
+    const { data, count } = await query.range(from, to)
+    
     if (data) setProducts(data)
+    if (count !== null) setTotalProducts(count)
     setLoading(false)
   }
 
   useEffect(() => {
-    fetchProducts()
+    setCurrentPage(1)
+    fetchProducts(1)
   }, [searchTerm, selectedCategory, sortBy])
+
+  useEffect(() => {
+    fetchProducts(currentPage)
+  }, [currentPage])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50">
@@ -92,10 +112,10 @@ function HomeContent() {
 
         <div className="max-w-7xl mx-auto text-center relative z-10">
           <h1 className="text-5xl md:text-6xl font-bold mb-4 animate-fade-in drop-shadow-lg">
-            {t.heroTitle}
+            {settings?.company_name || 'Shopping by Lina'}
           </h1>
           <p className="text-xl md:text-2xl mb-8 text-white drop-shadow-md">
-            {t.heroSubtitle}
+            Vente des marques Originaux 100%
           </p>
           <button
             onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
@@ -162,16 +182,59 @@ function HomeContent() {
             <p className="text-gray-500 text-lg">{t.noProductsFound}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+          <div className="space-y-12">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+
+            {/* Pagination UI */}
+            {totalProducts > itemsPerPage && (
+              <div className="flex flex-col items-center gap-4 py-8">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors font-medium"
+                  >
+                    {t.previous}
+                  </button>
+                  
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: Math.ceil(totalProducts / itemsPerPage) }, (_, i) => i + 1).map(page => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`w-10 h-10 rounded-lg font-bold transition-all ${currentPage === page ? 'bg-gradient-fashion text-white shadow-md' : 'hover:bg-gray-100 text-gray-600'}`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => setCurrentPage(prev => Math.min(Math.ceil(totalProducts / itemsPerPage), prev + 1))}
+                    disabled={currentPage === Math.ceil(totalProducts / itemsPerPage)}
+                    className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 transition-colors font-medium"
+                  >
+                    {t.next}
+                  </button>
+                </div>
+                <p className="text-sm text-gray-500 font-medium">
+                  {t.showing} {((currentPage - 1) * itemsPerPage) + 1} - {Math.min(currentPage * itemsPerPage, totalProducts)} {t.of} {totalProducts} {t.products_count}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
+      <InstagramSection />
     </div>
   )
 }
+
+import InstagramSection from '@/components/InstagramSection'
 
 export default function HomePage() {
   return (

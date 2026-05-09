@@ -7,41 +7,14 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { useAuth } from '@/hooks/useAuth'
 import { supabase } from '@/lib/supabase'
 import { useState, useEffect } from 'react'
-import { Trash2, ShoppingBag, Clock } from 'lucide-react'
+import { Trash2, ShoppingBag, MessageCircle } from 'lucide-react'
+import { useSettings } from '@/hooks/useSettings'
 
 export default function CartPage() {
     const { t } = useLanguage()
     const router = useRouter()
     const { items, removeItem, updateQuantity, total } = useCart()
-    const { user } = useAuth()
-
-    // Recent Orders State
-    const [recentOrders, setRecentOrders] = useState<any[]>([])
-    const [loadingOrders, setLoadingOrders] = useState(true)
-
-    // Fetch recent orders for empty state
-    useEffect(() => {
-        async function fetchRecentOrders() {
-            if (!user) {
-                setLoadingOrders(false)
-                return
-            }
-
-            const { data } = await supabase
-                .from('online_orders')
-                .select('*')
-                .eq('customer_id', user.id)
-                .order('created_at', { ascending: false })
-                .limit(2) // Only show top 2 items
-
-            if (data) setRecentOrders(data)
-            setLoadingOrders(false)
-        }
-
-        if (items.length === 0) {
-            fetchRecentOrders()
-        }
-    }, [user, items.length])
+    const { settings } = useSettings()
 
     if (items.length === 0) {
         return (
@@ -59,59 +32,32 @@ export default function CartPage() {
                             {t.continueShopping}
                         </button>
                     </div>
-
-                    {/* Recent Orders Section (Only if logged in and has orders) */}
-                    {user && !loadingOrders && recentOrders.length > 0 && (
-                        <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-md p-8 border border-gray-100">
-                            <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                                    <Clock className="w-5 h-5 text-primary-500" />
-                                    Vos dernières commandes
-                                </h3>
-                                <button
-                                    onClick={() => router.push('/orders')}
-                                    className="text-primary-600 hover:text-primary-700 font-medium text-sm hover:underline"
-                                >
-                                    Voir tout
-                                </button>
-                            </div>
-
-                            <div className="grid md:grid-cols-2 gap-4">
-                                {recentOrders.map((order) => (
-                                    <div
-                                        key={order.id}
-                                        className="border border-gray-200 rounded-xl p-4 hover:border-primary-300 transition-all cursor-pointer bg-white"
-                                        onClick={() => router.push('/orders')}
-                                    >
-                                        <div className="flex justify-between items-start mb-2">
-                                            <div>
-                                                <p className="font-semibold text-gray-900">CMD #{order.id.slice(0, 8)}</p>
-                                                <p className="text-xs text-gray-500">
-                                                    {new Date(order.created_at).toLocaleDateString('fr-FR', {
-                                                        day: 'numeric',
-                                                        month: 'short'
-                                                    })}
-                                                </p>
-                                            </div>
-                                            <span className={`px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wide
-                                                ${order.status === 'delivered' ? 'bg-green-100 text-green-700' :
-                                                    order.status === 'shipped' ? 'bg-purple-100 text-purple-700' :
-                                                        'bg-yellow-100 text-yellow-700'}`}>
-                                                {order.status}
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-end mt-2">
-                                            <p className="text-sm text-gray-600">{order.shipping_address?.split(',')[0]}...</p>
-                                            <p className="font-bold text-primary-600">{order.total?.toFixed(2) || '0.00'} DH</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
                 </div>
             </div>
         )
+    }
+
+    function handleWhatsAppCheckout() {
+        if (!settings || items.length === 0) return
+
+        let message = `Hola! Me gustaría comprar los siguientes productos de mi carrito:\n\n`
+        
+        items.forEach(item => {
+            const price = item.size
+                ? item.product.base_price + item.size.price_modifier
+                : item.product.base_price
+            
+            message += `- *${item.product.name}* (x${item.quantity})`
+            if (item.size) message += ` [Talla: ${item.size.size_name}]`
+            message += `: ${price * item.quantity} DH\n`
+        })
+
+        message += `\n*TOTAL: ${total.toFixed(2)} DH*\n\n¿Están disponibles?`
+        
+        const encodedMessage = encodeURIComponent(message)
+        const whatsappUrl = `https://wa.me/${settings.phone.replace(/\s+/g, '')}?text=${encodedMessage}`
+        
+        window.open(whatsappUrl, '_blank')
     }
 
     return (
@@ -211,11 +157,13 @@ export default function CartPage() {
                                 </div>
                             </div>
 
+                            {/* WhatsApp Checkout Button */}
                             <button
-                                onClick={() => router.push('/checkout')}
-                                className="w-full bg-gradient-fashion text-white py-3 rounded-lg font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg mb-3"
+                                onClick={handleWhatsAppCheckout}
+                                className="w-full bg-emerald-600 text-white py-4 rounded-lg font-bold hover:bg-emerald-700 transition-all shadow-md hover:shadow-lg mb-4 flex items-center justify-center space-x-2"
                             >
-                                {t.proceedToCheckout}
+                                <MessageCircle className="w-5 h-5" />
+                                <span>{t.finishOrderViaWhatsApp}</span>
                             </button>
 
                             <button

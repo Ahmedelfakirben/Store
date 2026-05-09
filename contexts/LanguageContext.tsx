@@ -15,6 +15,7 @@ interface Translations {
     logout: string;
     myOrders: string;
     myProfile: string;
+    whoWeAre: string;
 
     // Hero Section
     heroTitle: string;
@@ -116,6 +117,13 @@ interface Translations {
     privacyPolicy: string;
     followUs: string;
     allRightsReserved: string;
+    previous: string;
+    next: string;
+    showing: string;
+    of: string;
+    products_count: string;
+    orderViaWhatsApp: string;
+    finishOrderViaWhatsApp: string;
 }
 
 const translations: Record<Language, Translations> = {
@@ -231,6 +239,14 @@ const translations: Record<Language, Translations> = {
         privacyPolicy: 'Politique de Confidentialité',
         followUs: 'Suivez-nous',
         allRightsReserved: 'Tous droits réservés',
+        previous: 'Précédent',
+        next: 'Suivant',
+        showing: 'Affichage de',
+        of: 'sur',
+        products_count: 'produits',
+        orderViaWhatsApp: 'Commander via WhatsApp',
+        finishOrderViaWhatsApp: 'Finaliser via WhatsApp',
+        whoWeAre: 'Qui Sommes Nous',
     },
     es: {
         // Navigation
@@ -344,6 +360,14 @@ const translations: Record<Language, Translations> = {
         privacyPolicy: 'Política de Privacidad',
         followUs: 'Síguenos',
         allRightsReserved: 'Todos los derechos reservados',
+        previous: 'Anterior',
+        next: 'Siguiente',
+        showing: 'Mostrando',
+        of: 'de',
+        products_count: 'productos',
+        orderViaWhatsApp: 'Solicitar por WhatsApp',
+        finishOrderViaWhatsApp: 'Finalizar por WhatsApp',
+        whoWeAre: 'Quiénes Somos',
     },
 };
 
