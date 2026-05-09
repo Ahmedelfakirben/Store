@@ -7,6 +7,7 @@ import ProductCard from '@/components/ProductCard'
 import { Search, Award, Truck, ShieldCheck } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useSettings } from '@/hooks/useSettings'
+import PageLoader from '@/components/PageLoader'
 
 function HomeContent() {
   const { t } = useLanguage()
@@ -173,10 +174,7 @@ function HomeContent() {
 
         {/* Products Grid */}
         {loading ? (
-          <div className="text-center py-20">
-            <div className="inline-block animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
-            <p className="mt-4 text-gray-600 font-medium">{t.loading}</p>
-          </div>
+          <PageLoader />
         ) : products.length === 0 ? (
           <div className="text-center py-20">
             <p className="text-gray-500 text-lg">{t.noProductsFound}</p>

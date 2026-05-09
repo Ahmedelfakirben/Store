@@ -8,6 +8,7 @@ import { useCart } from '@/hooks/useCart'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useSettings } from '@/hooks/useSettings'
 import { ShoppingCart, ArrowLeft, MessageCircle } from 'lucide-react'
+import PageLoader from '@/components/PageLoader'
 
 export default function ProductDetailPage() {
     const { t } = useLanguage()
@@ -69,7 +70,7 @@ export default function ProductDetailPage() {
         if (!product || !settings) return
 
         const sizeInfo = selectedSize ? `Talla: ${selectedSize}` : ''
-        const message = `Hola! Me gustaría comprar este producto:\n\n*${product.name}*\n${sizeInfo}\nPrecio: ${product.base_price} DH\n\nLink: ${window.location.href}`
+        const message = `Bonjour ! J'aimerais acheter ce produit :\n\n*${product.name}*\n${sizeInfo}\nPrix : ${product.base_price} DH\n\nLien : ${window.location.href}`
         
         const encodedMessage = encodeURIComponent(message)
         const whatsappUrl = `https://wa.me/${settings.phone.replace(/\s+/g, '')}?text=${encodedMessage}`
@@ -87,11 +88,7 @@ export default function ProductDetailPage() {
     }
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
-            </div>
-        )
+        return <PageLoader />
     }
 
     if (!product) {

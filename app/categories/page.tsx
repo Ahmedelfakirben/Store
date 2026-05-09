@@ -7,6 +7,7 @@ import { supabase, Category, Product } from '@/lib/supabase'
 import ProductCard from '@/components/ProductCard'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { Grid, List, ArrowRight } from 'lucide-react'
+import PageLoader from '@/components/PageLoader'
 
 export default function CategoriesPage() {
     const { t } = useLanguage()
@@ -63,11 +64,7 @@ export default function CategoriesPage() {
     }
 
     if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary-500 border-t-transparent"></div>
-            </div>
-        )
+        return <PageLoader />
     }
 
     return (
