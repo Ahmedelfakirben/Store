@@ -51,9 +51,9 @@ export default function ProductCard({ product }: ProductCardProps) {
                 </div>
 
                 {/* Product Info */}
-                <div className="p-5">
-                    <div className="mb-2">
-                        <h3 className="font-bold text-gray-900 line-clamp-1 group-hover:text-primary-600 transition-colors">
+                <div className="p-3 md:p-5">
+                    <div className="mb-1 md:mb-2">
+                        <h3 className="font-bold text-sm md:text-base text-gray-900 line-clamp-1 group-hover:text-primary-600 transition-colors">
                             {product.name}
                         </h3>
                     </div>
@@ -75,7 +75,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
                     <div className="flex items-end justify-between gap-2">
                         <div>
-                            <div className="text-xl font-black bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+                            <div className="text-lg md:text-xl font-black bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
                                 {(product.base_price ?? 0).toFixed(2)} DH
                             </div>
                             {(product.stock ?? 0) > 0 ? (
