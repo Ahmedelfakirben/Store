@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import { useSettings } from '@/hooks/useSettings'
 import { ShoppingCart, ArrowLeft, MessageCircle } from 'lucide-react'
 import PageLoader from '@/components/PageLoader'
+import ProductCard from '@/components/ProductCard'
 
 export default function ProductDetailPage() {
     const { t } = useLanguage()
@@ -19,6 +20,7 @@ export default function ProductDetailPage() {
     const [product, setProduct] = useState<Product | null>(null)
     const [sizes, setSizes] = useState<ProductSize[]>([])
     const [gallery, setGallery] = useState<{ image_url: string }[]>([])
+    const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
     const [selectedImage, setSelectedImage] = useState<string>('')
     const [selectedSize, setSelectedSize] = useState<string>('')
     const [quantity, setQuantity] = useState(1)
@@ -62,6 +64,18 @@ export default function ProductDetailPage() {
             if (galleryData) {
                 setGallery(galleryData)
             }
+
+            // Fetch related products
+            const { data: relatedData } = await supabase
+                .from('products')
+                .select('*, product_sizes(*)')
+                .eq('category_id', productData.category_id)
+                .neq('id', params.id)
+                .eq('available', true)
+                .gt('stock', 0)
+                .limit(4)
+            
+            if (relatedData) setRelatedProducts(relatedData)
         }
         setLoading(false)
     }
@@ -228,6 +242,24 @@ export default function ProductDetailPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Related Products Section */}
+            {relatedProducts.length > 0 && (
+                <div className="max-w-7xl mx-auto mt-24">
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-3xl font-bold text-gray-900">
+                            {t.youMayAlsoLike || 'Vous pourriez aussi aimer'}
+                        </h2>
+                        <div className="h-1 flex-1 bg-gray-100 mx-8 rounded-full hidden md:block"></div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                        {relatedProducts.map((p) => (
+                            <ProductCard key={p.id} product={p} />
+                        ))}
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
