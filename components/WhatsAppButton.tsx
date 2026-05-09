@@ -9,7 +9,8 @@ export default function WhatsAppButton() {
     if (!settings?.phone) return null
 
     const whatsappNumber = settings.phone.replace(/\s+/g, '')
-    const whatsappUrl = `https://wa.me/${whatsappNumber}`
+    const defaultMessage = encodeURIComponent("Bonjour ! J'aimerais avoir plus d'informations sur vos produits.")
+    const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultMessage}`
 
     return (
         <a

@@ -152,7 +152,7 @@ export default function Navbar() {
                         {/* Social Action Buttons - More subtle design */}
                         <div className="grid grid-cols-2 gap-4">
                             <a 
-                                href={`https://wa.me/${settings?.phone?.replace(/\s+/g, '') || '212712130088'}`}
+                                href={`https://wa.me/${settings?.phone?.replace(/\s+/g, '') || '212712130088'}?text=${encodeURIComponent("Bonjour ! J'aimerais avoir plus d'informations.")}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="flex items-center justify-center space-x-2 border-2 border-emerald-100 bg-emerald-50 text-emerald-700 py-4 rounded-xl font-bold active:scale-95 transition-all"

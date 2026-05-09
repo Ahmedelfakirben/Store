@@ -40,7 +40,7 @@ export default function CartPage() {
     function handleWhatsAppCheckout() {
         if (!settings || items.length === 0) return
 
-        let message = `Hola! Me gustaría comprar los siguientes productos de mi carrito:\n\n`
+        let message = `Bonjour ! J'aimerais acheter les produits suivants de mon panier :\n\n`
         
         items.forEach(item => {
             const price = item.size
@@ -48,11 +48,11 @@ export default function CartPage() {
                 : item.product.base_price
             
             message += `- *${item.product.name}* (x${item.quantity})`
-            if (item.size) message += ` [Talla: ${item.size.size_name}]`
-            message += `: ${price * item.quantity} DH\n`
+            if (item.size) message += ` [Taille : ${item.size.size_name}]`
+            message += ` : ${price * item.quantity} DH\n`
         })
 
-        message += `\n*TOTAL: ${total.toFixed(2)} DH*\n\n¿Están disponibles?`
+        message += `\n*TOTAL : ${total.toFixed(2)} DH*\n\nSont-ils disponibles ?`
         
         const encodedMessage = encodeURIComponent(message)
         const whatsappUrl = `https://wa.me/${settings.phone.replace(/\s+/g, '')}?text=${encodedMessage}`
