@@ -291,12 +291,14 @@ function HomeContent() {
           </div>
       </div>
 
+      <BrandsSection />
       <InstagramSection />
     </div>
   )
 }
 
 import InstagramSection from '@/components/InstagramSection'
+import BrandsSection from '@/components/BrandsSection'
 
 export default function HomePage() {
   return (

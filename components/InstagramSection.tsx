@@ -14,11 +14,11 @@ export default function InstagramSection() {
                     <div className="relative h-[400px] lg:h-auto bg-gradient-to-tr from-yellow-400 via-red-500 to-purple-600 p-1">
                         <div className="w-full h-full bg-white rounded-[2.8rem] overflow-hidden relative">
                             <div className="absolute inset-0 grid grid-cols-3 grid-rows-2 gap-2 p-4">
-                                {[1, 2, 3, 4, 5, 6].map((i) => (
-                                    <div key={i} className="bg-gray-100 rounded-2xl animate-pulse flex items-center justify-center">
-                                        <Instagram className="w-8 h-8 text-gray-300" />
-                                    </div>
-                                ))}
+                                {[0.05, 0.1, 0.05, 0.1, 0.05, 0.1].map((opacity, i) => (
+                                     <div key={i} className="bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100/50">
+                                         <Instagram className="w-8 h-8" style={{ opacity }} />
+                                     </div>
+                                 ))}
                             </div>
                             <div className="absolute inset-0 bg-black/10 flex items-center justify-center backdrop-blur-[2px]">
                                 <div className="bg-white/90 backdrop-blur-md p-6 rounded-3xl shadow-2xl text-center transform hover:scale-105 transition-transform">
@@ -42,7 +42,7 @@ export default function InstagramSection() {
                             Explorez notre univers sur Instagram
                         </h2>
                         <p className="text-gray-600 text-lg mb-10 leading-relaxed">
-                            Suivez-nous pour découvrir nos derniers arrivages, nos looks exclusivos et toute l'actualité de **Shopping by Lina** en temps réel.
+                            Suivez-nous pour découvrir nos derniers arrivages, nos looks exclusivos et toute l'actualité de <span className="font-bold text-gray-900 underline decoration-pink-500/30">Shopping by Lina</span> en temps réel.
                         </p>
                         <a 
                             href={settings?.instagram_link || 'https://www.instagram.com/shopping__by__lina/'}
