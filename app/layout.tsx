@@ -8,6 +8,8 @@ import { SettingsProvider } from '@/hooks/useSettings'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
+import ScrollToTop from '@/components/ScrollToTop'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -55,6 +57,9 @@ export default function RootLayout({
                 </main>
                 <Footer />
                 <WhatsAppButton />
+                <Suspense fallback={null}>
+                  <ScrollToTop />
+                </Suspense>
               </CartProvider>
             </AuthProvider>
           </SettingsProvider>
