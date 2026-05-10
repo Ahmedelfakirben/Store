@@ -27,6 +27,7 @@ export default function ProductDetailPage() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        window.scrollTo(0, 0)
         fetchProduct()
     }, [params.id])
 
