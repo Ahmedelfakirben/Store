@@ -20,12 +20,26 @@ export default function ProductCard({ product }: ProductCardProps) {
                 {/* Image Container */}
                 <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-primary-50 to-accent-50">
                     {product.image_url ? (
-                        <Image
-                            src={product.image_url}
-                            alt={product.name}
-                            fill
-                            className="object-cover group-hover:scale-110 transition-transform duration-300"
-                        />
+                        <div className="w-full h-full relative">
+                            <Image
+                                src={product.image_url}
+                                alt={product.name}
+                                fill
+                                className="object-cover group-hover:scale-110 transition-transform duration-300"
+                                onError={(e) => {
+                                    // Handle image load error (like 403 from TikTok)
+                                    const target = e.target as any;
+                                    target.style.display = 'none';
+                                    const parent = target.parentElement;
+                                    if (parent) {
+                                        const fallback = document.createElement('div');
+                                        fallback.className = 'w-full h-full flex items-center justify-center text-gray-300 bg-gray-50';
+                                        fallback.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-bag opacity-20"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>';
+                                        parent.appendChild(fallback);
+                                    }
+                                }}
+                            />
+                        </div>
                     ) : (
                         <div className="w-full h-full flex items-center justify-center text-gray-400">
                             <ShoppingCart className="w-16 h-16" />

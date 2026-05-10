@@ -109,14 +109,14 @@ function HomeContent() {
         }}
       >
         {/* Overlay for better text readability - minimal opacity */}
-        <div className="absolute inset-0 bg-gradient-to-r from-primary-600/10 to-accent-600/10"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
 
-        <div className="max-w-7xl mx-auto text-center relative z-10">
-          <h1 className="text-5xl md:text-6xl font-bold mb-4 animate-fade-in drop-shadow-lg">
+        <div className="max-w-7xl mx-auto text-left md:text-center relative z-10">
+          <h1 className="text-5xl md:text-7xl font-black mb-4 animate-fade-in drop-shadow-2xl italic tracking-tighter">
             {settings?.company_name || 'Shopping by Lina'}
           </h1>
-          <p className="text-xl md:text-2xl mb-8 text-white drop-shadow-md">
-            Vente des marques Originaux 100%
+          <p className="text-xl md:text-3xl mb-8 text-white font-bold drop-shadow-lg uppercase tracking-widest">
+            Activewear & Lifestyle Originals 100%
           </p>
           <button
             onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
