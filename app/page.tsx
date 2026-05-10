@@ -100,32 +100,34 @@ function HomeContent() {
     <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50">
       {/* Hero Section */}
       <div
-        className="relative bg-gradient-fashion text-white py-32 px-4 overflow-hidden"
+        className="relative bg-gradient-fashion text-white min-h-[90vh] flex items-center px-4 overflow-hidden"
         style={{
           backgroundImage: 'url(/images/hero-background.png)',
           backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundPosition: 'center 30%',
           backgroundRepeat: 'no-repeat'
         }}
       >
         {/* Overlay for better text readability - minimal opacity */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-white/10"></div>
 
-        <div className="max-w-7xl mx-auto text-left md:text-center relative z-10">
-          <h1 className="text-5xl md:text-7xl font-black mb-4 animate-fade-in drop-shadow-2xl italic tracking-tighter">
+        <div className="max-w-7xl mx-auto w-full text-center relative z-10 pt-20">
+          <h1 className="text-6xl md:text-8xl font-black mb-6 animate-fade-in drop-shadow-2xl italic tracking-tighter leading-none">
             {settings?.company_name || 'Shopping by Lina'}
           </h1>
-          <p className="text-xl md:text-3xl mb-8 text-white font-bold drop-shadow-lg uppercase tracking-widest">
+          <p className="text-xl md:text-3xl mb-12 text-white font-bold drop-shadow-lg uppercase tracking-[0.25em] opacity-90">
             Activewear & Lifestyle Originals 100%
           </p>
           <button
             onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-primary-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all shadow-lg hover:shadow-xl transform hover:scale-105"
+            className="bg-white text-primary-600 px-12 py-5 rounded-full font-black text-lg hover:bg-gray-100 transition-all shadow-2xl hover:shadow-primary-500/20 transform hover:-translate-y-1 active:scale-95"
           >
             {t.shopNow}
           </button>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-white to-transparent"></div>
+        
+        {/* Modern Bottom Fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/50 to-transparent"></div>
       </div>
 
       {/* Search and Filters */}
