@@ -155,8 +155,7 @@ function HomeContent() {
           }}
         ></div>
 
-        {/* Overlay for better text readability with brand tint */}
-        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-primary-900/10 to-brand-pink/40 backdrop-blur-[1px]"></div>
+        {/* No Overlay - Full Clarity */}
 
         <div className="max-w-7xl mx-auto w-full text-center relative z-20 pt-20">
           <h1 className="text-6xl md:text-8xl font-black mb-6 animate-fade-in drop-shadow-2xl italic tracking-tighter leading-none text-white">
@@ -173,8 +172,8 @@ function HomeContent() {
           </button>
         </div>
         
-        {/* Advanced Transition: Long, Ethereal Brand Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-64 z-30 bg-gradient-to-t from-brand-pink via-brand-pink/80 to-transparent"></div>
+        {/* Minimal transition fade to brand color */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 z-30 bg-gradient-to-t from-brand-pink to-transparent"></div>
         
         {/* Decorative Slanted Edge for a modern look */}
         <div className="absolute -bottom-1 left-0 right-0 h-16 z-40 bg-brand-pink" style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 0)' }}></div>

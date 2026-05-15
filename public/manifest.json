@@ -1,6 +1,6 @@
 {
-    "name": "LIN-Fashion",
-    "short_name": "LIN-Fashion",
+    "name": "Shopping by Lina",
+    "short_name": "Shopping by Lina",
     "description": "Votre boutique mode en ligne - Découvrez notre collection de vêtements tendance et élégants",
     "start_url": "/",
     "display": "standalone",
@@ -9,7 +9,7 @@
     "orientation": "portrait-primary",
     "icons": [
         {
-            "src": "/favicon.png",
+            "src": "/pwa-icon.png",
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "any maskable"
