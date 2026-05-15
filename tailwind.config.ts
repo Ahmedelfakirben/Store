@@ -34,6 +34,12 @@ export default {
                     800: '#6b21a8',
                     900: '#581c87',
                 },
+                brand: {
+                    pink: '#fce7f3',
+                    teal: '#99f6e4',
+                    rose: '#ec4899',
+                    dark: '#831843',
+                },
             },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

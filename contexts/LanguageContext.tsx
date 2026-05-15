@@ -30,6 +30,7 @@ interface Translations {
     sortPriceLowHigh: string;
     sortPriceHighLow: string;
     sortNameAZ: string;
+    allSizes: string;
 
     // Product Card
     new: string;
@@ -153,6 +154,7 @@ const translations: Record<Language, Translations> = {
         sortPriceLowHigh: 'Prix: Croissant',
         sortPriceHighLow: 'Prix: Décroissant',
         sortNameAZ: 'Nom: A-Z',
+        allSizes: 'Toutes les Tailles',
 
         // Product Card
         new: 'NOUVEAU',
@@ -275,6 +277,7 @@ const translations: Record<Language, Translations> = {
         sortPriceLowHigh: 'Precio: Menor a Mayor',
         sortPriceHighLow: 'Precio: Mayor a Menor',
         sortNameAZ: 'Nombre: A-Z',
+        allSizes: 'Todas las Tallas',
 
         // Product Card
         new: 'NUEVO',

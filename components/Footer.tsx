@@ -12,8 +12,12 @@ export default function Footer() {
     const currentYear = new Date().getFullYear()
 
     return (
-        <footer className="bg-white border-t border-gray-100 pt-16 pb-12">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <footer className="relative bg-gradient-to-br from-brand-pink via-white to-brand-teal pt-24 pb-12 border-t border-gray-50 overflow-hidden">
+            {/* Soft decorative blur circles for a premium feel */}
+            <div className="absolute top-[-10%] left-[-5%] w-[30%] h-[50%] bg-white/40 blur-[100px] rounded-full pointer-events-none"></div>
+            <div className="absolute bottom-[-10%] right-[-5%] w-[30%] h-[50%] bg-white/40 blur-[100px] rounded-full pointer-events-none"></div>
+            
+            <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                     {/* Brand Section */}
                     <div className="space-y-6">

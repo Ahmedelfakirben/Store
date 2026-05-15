@@ -60,7 +60,7 @@ export default function CategoriesPage() {
     }
 
     function handleCategoryClick(categoryId: string) {
-        router.push(`/?category=${categoryId}`)
+        router.push(`/categories/${categoryId}`)
     }
 
     if (loading) {
@@ -141,7 +141,7 @@ export default function CategoriesPage() {
                                         </div>
                                         <button
                                             onClick={() => handleCategoryClick(category.id)}
-                                            className="flex items-center justify-center space-x-2 bg-gradient-fashion text-white px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold hover:opacity-90 transition-all shadow-md hover:shadow-lg group text-sm md:text-base"
+                                            className="flex items-center justify-center space-x-2 bg-primary-500 text-white px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold hover:bg-primary-600 transition-all shadow-md hover:shadow-lg group text-sm md:text-base"
                                         >
                                             <span>Voir tout</span>
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />

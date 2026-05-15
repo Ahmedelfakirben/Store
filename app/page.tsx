@@ -18,8 +18,10 @@ function HomeContent() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<string>('')
+  const [selectedSize, setSelectedSize] = useState<string>('')
   const [sortBy, setSortBy] = useState<string>('newest')
   const [currentPage, setCurrentPage] = useState(1)
+  const [sizes, setSizes] = useState<string[]>([])
   const [totalProducts, setTotalProducts] = useState(0)
   const itemsPerPage = 20
 
@@ -31,6 +33,41 @@ function HomeContent() {
     }
     fetchCategories()
   }, [searchParams])
+
+  useEffect(() => {
+    fetchSizes()
+  }, [selectedCategory])
+
+  async function fetchSizes() {
+    let query = supabase
+      .from('product_sizes')
+      .select('size_name, products!inner(category_id, available)')
+      .gt('stock', 0)
+      .eq('products.available', true)
+    
+    if (selectedCategory) {
+      query = query.eq('products.category_id', selectedCategory)
+    }
+
+    const { data } = await query
+    
+    if (data) {
+      const uniqueSizes = Array.from(new Set(data.map(s => s.size_name)))
+        .sort((a, b) => {
+          const aNum = parseFloat(a)
+          const bNum = parseFloat(b)
+          if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum
+          return a.localeCompare(b)
+        })
+      
+      setSizes(uniqueSizes)
+      
+      // If selected size is not in the new list, reset it
+      if (selectedSize && !uniqueSizes.includes(selectedSize)) {
+        setSelectedSize('')
+      }
+    }
+  }
 
   async function fetchCategories() {
     const { data } = await supabase
@@ -45,12 +82,16 @@ function HomeContent() {
     setLoading(true)
     let query = supabase
       .from('products')
-      .select('*, product_sizes(*)', { count: 'exact' })
+      .select(selectedSize ? '*, product_sizes!inner(*)' : '*, product_sizes(*)', { count: 'exact' })
       .eq('available', true)
-      .gt('stock', 0) // Only products with stock
-      .gt('base_price', 0) // Only products with valid price
-      .not('image_url', 'is', null) // Only products with image
-      .neq('image_url', '') // Ensure image_url is not an empty string
+      .gt('stock', 0)
+      .gt('base_price', 0)
+      .not('image_url', 'is', null)
+      .neq('image_url', '')
+
+    if (selectedSize) {
+      query = query.eq('product_sizes.size_name', selectedSize)
+    }
 
     if (selectedCategory) {
       query = query.eq('category_id', selectedCategory)
@@ -90,29 +131,35 @@ function HomeContent() {
   useEffect(() => {
     setCurrentPage(1)
     fetchProducts(1)
-  }, [searchTerm, selectedCategory, sortBy])
+  }, [searchTerm, selectedCategory, selectedSize, sortBy])
 
   useEffect(() => {
     fetchProducts(currentPage)
   }, [currentPage])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50">
-      {/* Hero Section */}
+    <div className="min-h-screen bg-gradient-to-br from-brand-pink via-white to-brand-teal">
+      {/* Hero Section with Parallax Effect */}
       <div
-        className="relative bg-gradient-fashion text-white min-h-[90vh] flex items-center px-4 overflow-hidden"
-        style={{
-          backgroundImage: 'url(/images/hero-background.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center 30%',
-          backgroundRepeat: 'no-repeat'
-        }}
+        className="relative min-h-[95vh] flex items-center px-4 overflow-hidden"
       >
-        {/* Overlay for better text readability - minimal opacity */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-white/10"></div>
+        {/* Parallax Background Layer */}
+        <div 
+          className="absolute inset-0 z-0 scale-110"
+          style={{
+            backgroundImage: 'url(/images/hero-background.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center 30%',
+            backgroundRepeat: 'no-repeat',
+            transform: 'translateZ(0)',
+          }}
+        ></div>
 
-        <div className="max-w-7xl mx-auto w-full text-center relative z-10 pt-20">
-          <h1 className="text-6xl md:text-8xl font-black mb-6 animate-fade-in drop-shadow-2xl italic tracking-tighter leading-none">
+        {/* Overlay for better text readability with brand tint */}
+        <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/50 via-primary-900/10 to-brand-pink/40 backdrop-blur-[1px]"></div>
+
+        <div className="max-w-7xl mx-auto w-full text-center relative z-20 pt-20">
+          <h1 className="text-6xl md:text-8xl font-black mb-6 animate-fade-in drop-shadow-2xl italic tracking-tighter leading-none text-white">
             {settings?.company_name || 'Shopping by Lina'}
           </h1>
           <p className="text-xl md:text-3xl mb-12 text-white font-bold drop-shadow-lg uppercase tracking-[0.25em] opacity-90">
@@ -120,20 +167,23 @@ function HomeContent() {
           </p>
           <button
             onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-primary-600 px-12 py-5 rounded-full font-black text-lg hover:bg-gray-100 transition-all shadow-2xl hover:shadow-primary-500/20 transform hover:-translate-y-1 active:scale-95"
+            className="bg-white text-primary-600 px-12 py-5 rounded-full font-black text-lg hover:bg-gray-100 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-primary-500/40 transform hover:-translate-y-1 active:scale-95"
           >
             {t.shopNow}
           </button>
         </div>
         
-        {/* Modern Bottom Fade */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/50 to-transparent"></div>
+        {/* Advanced Transition: Long, Ethereal Brand Fade */}
+        <div className="absolute bottom-0 left-0 right-0 h-64 z-30 bg-gradient-to-t from-brand-pink via-brand-pink/80 to-transparent"></div>
+        
+        {/* Decorative Slanted Edge for a modern look */}
+        <div className="absolute -bottom-1 left-0 right-0 h-16 z-40 bg-brand-pink" style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 0)' }}></div>
       </div>
 
       {/* Search and Filters */}
       <div id="products" className="max-w-7xl mx-auto px-4 py-8">
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-primary-100">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
             {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -156,6 +206,20 @@ function HomeContent() {
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id} className="text-gray-900">
                   {cat.name}
+                </option>
+              ))}
+            </select>
+
+            {/* Size Filter */}
+            <select
+              value={selectedSize}
+              onChange={(e) => setSelectedSize(e.target.value)}
+              className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-gray-900 font-medium bg-white"
+            >
+              <option value="" className="text-gray-900">{t.allSizes}</option>
+              {sizes.map((size) => (
+                <option key={size} value={size} className="text-gray-900">
+                  {size}
                 </option>
               ))}
             </select>
@@ -293,8 +357,10 @@ function HomeContent() {
           </div>
       </div>
 
-      <BrandsSection />
-      <InstagramSection />
+      <div className="bg-white">
+          <BrandsSection />
+          <InstagramSection />
+      </div>
     </div>
   )
 }
