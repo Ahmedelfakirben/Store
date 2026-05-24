@@ -50,6 +50,23 @@ export default function ProductDetailPage() {
 
             if (sizesData && sizesData.length > 0) {
                 const mappedSizes = sizesData.map(s => ({ ...s, size: s.size_name }))
+                    .sort((a, b) => {
+                        const aVal = a.size_name
+                        const bVal = b.size_name
+                        const aNum = parseFloat(aVal)
+                        const bNum = parseFloat(bVal)
+                        if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum
+                        
+                        const sizeOrder = ['XXS', 'XS', 'XS/S', 'S', 'S/M', 'M', 'M/L', 'L', 'L/XL', 'XL', 'XXL', 'XXXL', '3XL', '4XL', '5XL']
+                        const aIndex = sizeOrder.indexOf(aVal.toUpperCase())
+                        const bIndex = sizeOrder.indexOf(bVal.toUpperCase())
+                        
+                        if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex
+                        if (aIndex !== -1) return -1
+                        if (bIndex !== -1) return 1
+                        
+                        return aVal.localeCompare(bVal)
+                    })
                 setSizes(mappedSizes)
                 setSelectedSize(mappedSizes[0].size_name)
             }
@@ -75,7 +92,15 @@ export default function ProductDetailPage() {
                 .gt('stock', 0)
                 .limit(6)
             
-            if (relatedData) setRelatedProducts(relatedData)
+            if (relatedData) {
+                const availableRelated = (relatedData as Product[]).filter(product => {
+                    if (product.product_sizes && product.product_sizes.length > 0) {
+                        return product.product_sizes.some(s => s.stock > 0)
+                    }
+                    return (product.stock ?? 0) > 0
+                })
+                setRelatedProducts(availableRelated)
+            }
         }
         setLoading(false)
     }

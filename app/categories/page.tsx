@@ -49,7 +49,13 @@ export default function CategoriesPage() {
                     .limit(4)
 
                 if (products) {
-                    productsMap[category.id] = products
+                    const availableProducts = (products as Product[]).filter(product => {
+                        if (product.product_sizes && product.product_sizes.length > 0) {
+                            return product.product_sizes.some(s => s.stock > 0)
+                        }
+                        return (product.stock ?? 0) > 0
+                    })
+                    productsMap[category.id] = availableProducts
                 }
             }
 

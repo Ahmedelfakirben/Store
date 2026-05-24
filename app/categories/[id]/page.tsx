@@ -79,6 +79,15 @@ export default function CategoryDetailPage() {
                     const aNum = parseFloat(a)
                     const bNum = parseFloat(b)
                     if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum
+                    
+                    const sizeOrder = ['XXS', 'XS', 'XS/S', 'S', 'S/M', 'M', 'M/L', 'L', 'L/XL', 'XL', 'XXL', 'XXXL', '3XL', '4XL', '5XL']
+                    const aIndex = sizeOrder.indexOf(a.toUpperCase())
+                    const bIndex = sizeOrder.indexOf(b.toUpperCase())
+                    
+                    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex
+                    if (aIndex !== -1) return -1
+                    if (bIndex !== -1) return 1
+                    
                     return a.localeCompare(b)
                 })
             setSizes(uniqueSizes)
@@ -135,7 +144,15 @@ export default function CategoryDetailPage() {
         
         const { data, count } = await query.range(from, to)
         
-        if (data) setProducts(data)
+        if (data) {
+            const availableProducts = (data as Product[]).filter(product => {
+                if (product.product_sizes && product.product_sizes.length > 0) {
+                    return product.product_sizes.some(s => s.stock > 0)
+                }
+                return (product.stock ?? 0) > 0
+            })
+            setProducts(availableProducts)
+        }
         if (count !== null) setTotalProducts(count)
         setProductsLoading(false)
     }

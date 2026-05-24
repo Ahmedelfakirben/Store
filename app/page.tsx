@@ -44,24 +44,33 @@ function HomeContent() {
       .select('size_name, products!inner(category_id, available)')
       .gt('stock', 0)
       .eq('products.available', true)
-    
+
     if (selectedCategory) {
       query = query.eq('products.category_id', selectedCategory)
     }
 
     const { data } = await query
-    
+
     if (data) {
       const uniqueSizes = Array.from(new Set(data.map(s => s.size_name)))
         .sort((a, b) => {
           const aNum = parseFloat(a)
           const bNum = parseFloat(b)
           if (!isNaN(aNum) && !isNaN(bNum)) return aNum - bNum
+
+          const sizeOrder = ['XXS', 'XS', 'XS/S', 'S', 'S/M', 'M', 'M/L', 'L', 'L/XL', 'XL', 'XXL', 'XXXL', '3XL', '4XL', '5XL']
+          const aIndex = sizeOrder.indexOf(a.toUpperCase())
+          const bIndex = sizeOrder.indexOf(b.toUpperCase())
+
+          if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex
+          if (aIndex !== -1) return -1
+          if (bIndex !== -1) return 1
+
           return a.localeCompare(b)
         })
-      
+
       setSizes(uniqueSizes)
-      
+
       // If selected size is not in the new list, reset it
       if (selectedSize && !uniqueSizes.includes(selectedSize)) {
         setSelectedSize('')
@@ -120,10 +129,18 @@ function HomeContent() {
     // Pagination
     const from = (page - 1) * itemsPerPage
     const to = from + itemsPerPage - 1
-    
+
     const { data, count } = await query.range(from, to)
-    
-    if (data) setProducts(data)
+
+    if (data) {
+      const availableProducts = (data as Product[]).filter(product => {
+        if (product.product_sizes && product.product_sizes.length > 0) {
+          return product.product_sizes.some(s => s.stock > 0)
+        }
+        return (product.stock ?? 0) > 0
+      })
+      setProducts(availableProducts)
+    }
     if (count !== null) setTotalProducts(count)
     setLoading(false)
   }
@@ -141,40 +158,30 @@ function HomeContent() {
     <div className="min-h-screen bg-gradient-to-br from-brand-pink via-white to-brand-teal">
       {/* Hero Section with Parallax Effect */}
       <div
-        className="relative min-h-[95vh] flex items-center px-4 overflow-hidden"
+        className="relative min-h-[95vh] flex items-end px-4 sm:px-8 md:px-16 pb-44 md:pb-48 overflow-hidden"
       >
         {/* Parallax Background Layer */}
         <div 
-          className="absolute inset-0 z-0 scale-110"
+          className="absolute inset-0 z-0 hero-bg-custom"
           style={{
-            backgroundImage: 'url(/images/hero-background.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center 30%',
-            backgroundRepeat: 'no-repeat',
             transform: 'translateZ(0)',
           }}
         ></div>
 
         {/* No Overlay - Full Clarity */}
 
-        <div className="max-w-7xl mx-auto w-full text-center relative z-20 pt-20">
-          <h1 className="text-6xl md:text-8xl font-black mb-6 animate-fade-in drop-shadow-2xl italic tracking-tighter leading-none text-white">
-            {settings?.company_name || 'Shopping by Lina'}
-          </h1>
-          <p className="text-xl md:text-3xl mb-12 text-white font-bold drop-shadow-lg uppercase tracking-[0.25em] opacity-90">
-            Activewear & Lifestyle Originals 100%
-          </p>
+        <div className="max-w-7xl mx-auto w-full text-center md:text-left relative z-50">
           <button
             onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-primary-600 px-12 py-5 rounded-full font-black text-lg hover:bg-gray-100 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-primary-500/40 transform hover:-translate-y-1 active:scale-95"
+            className="bg-white text-primary-600 px-12 py-5 rounded-full font-black text-lg hover:bg-gray-100 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-primary-500/40 transform hover:-translate-y-1 active:scale-95 adidas-aligned-button"
           >
             {t.shopNow}
           </button>
         </div>
-        
+
         {/* Minimal transition fade to brand color */}
         <div className="absolute bottom-0 left-0 right-0 h-32 z-30 bg-gradient-to-t from-brand-pink to-transparent"></div>
-        
+
         {/* Decorative Slanted Edge for a modern look */}
         <div className="absolute -bottom-1 left-0 right-0 h-16 z-40 bg-brand-pink" style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 0)' }}></div>
       </div>
@@ -263,7 +270,7 @@ function HomeContent() {
                   >
                     {t.previous}
                   </button>
-                  
+
                   <div className="flex items-center gap-1 overflow-x-auto max-w-[200px] sm:max-w-none no-scrollbar">
                     {(() => {
                       const totalPages = Math.ceil(totalProducts / itemsPerPage);
@@ -272,13 +279,13 @@ function HomeContent() {
 
                       for (let i = 1; i <= totalPages; i++) {
                         if (
-                          i === 1 || 
-                          i === totalPages || 
+                          i === 1 ||
+                          i === totalPages ||
                           (i >= currentPage - showRange && i <= currentPage + showRange)
                         ) {
                           pages.push(i);
                         } else if (
-                          i === currentPage - showRange - 1 || 
+                          i === currentPage - showRange - 1 ||
                           i === currentPage + showRange + 1
                         ) {
                           if (!pages.includes('...')) pages.push('...');
@@ -286,7 +293,7 @@ function HomeContent() {
                       }
 
                       // Deduplicate ellipses
-                      const uniquePages = pages.filter((v, i, a) => v !== '...' || a[i-1] !== '...');
+                      const uniquePages = pages.filter((v, i, a) => v !== '...' || a[i - 1] !== '...');
 
                       return uniquePages.map((page, index) => (
                         page === '...' ? (
@@ -320,45 +327,45 @@ function HomeContent() {
           </div>
         )}
       </div>
-      
+
       {/* Core Values Section */}
       <div className="max-w-7xl mx-auto px-4 py-24 border-t border-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="text-center p-8 rounded-[2.5rem] bg-pink-50/50 border border-pink-100 transition-all hover:shadow-xl hover:-translate-y-1">
-                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
-                      <Award className="w-8 h-8 text-pink-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">100% Original</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                      Nous ne vendons que des marques authentiques et originales. La qualité est notre priorité absolue.
-                  </p>
-              </div>
-
-              <div className="text-center p-8 rounded-[2.5rem] bg-purple-50/50 border border-purple-100 transition-all hover:shadow-xl hover:-translate-y-1">
-                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
-                      <Truck className="w-8 h-8 text-purple-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">Livraison Partout</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                      Où que vous soyez au Maroc, nous vous livrons à domicile dans les plus brefs délais.
-                  </p>
-              </div>
-
-              <div className="text-center p-8 rounded-[2.5rem] bg-emerald-50/50 border border-emerald-100 transition-all hover:shadow-xl hover:-translate-y-1">
-                  <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
-                      <ShieldCheck className="w-8 h-8 text-emerald-600" />
-                  </div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">Service Premium</h3>
-                  <p className="text-gray-500 text-sm leading-relaxed">
-                      Un accompagnement personnalisé via WhatsApp pour répondre à toutes vos envies mode.
-                  </p>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center p-8 rounded-[2.5rem] bg-pink-50/50 border border-pink-100 transition-all hover:shadow-xl hover:-translate-y-1">
+            <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+              <Award className="w-8 h-8 text-pink-600" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">100% Original</h3>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Nous ne vendons que des marques authentiques et originales. La qualité est notre priorité absolue.
+            </p>
           </div>
+
+          <div className="text-center p-8 rounded-[2.5rem] bg-purple-50/50 border border-purple-100 transition-all hover:shadow-xl hover:-translate-y-1">
+            <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+              <Truck className="w-8 h-8 text-purple-600" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Livraison Partout</h3>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Où que vous soyez au Maroc, nous vous livrons à domicile dans les plus brefs délais.
+            </p>
+          </div>
+
+          <div className="text-center p-8 rounded-[2.5rem] bg-emerald-50/50 border border-emerald-100 transition-all hover:shadow-xl hover:-translate-y-1">
+            <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+              <ShieldCheck className="w-8 h-8 text-emerald-600" />
+            </div>
+            <h3 className="text-xl font-bold text-gray-900 mb-3">Service Premium</h3>
+            <p className="text-gray-500 text-sm leading-relaxed">
+              Un accompagnement personnalisé via WhatsApp pour répondre à toutes vos envies mode.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="bg-white">
-          <BrandsSection />
-          <InstagramSection />
+        <BrandsSection />
+        <InstagramSection />
       </div>
     </div>
   )
