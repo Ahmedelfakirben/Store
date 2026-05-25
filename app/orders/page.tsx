@@ -148,7 +148,7 @@ function OrdersContent() {
         // WhatsApp link with pre-filled message
         const whatsappNumber = '212600000000' // Replace with actual number
         const encodedMessage = encodeURIComponent(message)
-        window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank')
+        window.open(`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`, '_blank')
     }
 
     if (loading) {

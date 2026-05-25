@@ -7,20 +7,24 @@ export default function AboutPage() {
     return (
         <div className="min-h-screen bg-white">
             {/* Hero Section */}
-            <div className="relative h-[60vh] flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
-                {/* Modern Gradient Mesh Background */}
-                <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-600/30 rounded-full blur-[120px] animate-pulse"></div>
-                    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent-600/20 rounded-full blur-[120px] animate-pulse delay-700"></div>
-                    <div className="absolute top-[20%] right-[10%] w-[30%] h-[30%] bg-purple-600/20 rounded-full blur-[100px] animate-pulse delay-1000"></div>
-                </div>
+            <div
+                className="relative h-[60vh] flex items-center justify-center overflow-hidden text-white"
+                style={{
+                    backgroundImage: 'url(/images/categories-background.jpg)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat'
+                }}
+            >
+                {/* Modern Dark Overlay for high contrast */}
+                <div className="absolute inset-0 bg-black/40"></div>
                 
                 <div className="relative z-10 text-center px-4">
-                    <h1 className="text-6xl md:text-8xl font-serif text-white mb-6 animate-fade-in">
+                    <h1 className="text-6xl md:text-8xl font-serif text-white mb-6 animate-fade-in drop-shadow-xl">
                         Qui Sommes Nous
                     </h1>
-                    <div className="w-24 h-1 bg-gradient-fashion mx-auto mb-8"></div>
-                    <p className="text-xl md:text-2xl text-white/90 max-w-2xl mx-auto font-light tracking-wide">
+                    <div className="w-24 h-1 bg-gradient-fashion mx-auto mb-8 shadow-sm"></div>
+                    <p className="text-xl md:text-2xl text-white max-w-2xl mx-auto font-light tracking-wide drop-shadow-md">
                         L'excellence de la mode internationale, livrée directement chez vous.
                     </p>
                 </div>

@@ -27,6 +27,7 @@ export default function Footer() {
                                     src="/logo.jpg"
                                     alt="Shopping by Lina Logo"
                                     fill
+                                    sizes="48px"
                                     className="object-cover"
                                 />
                             </div>

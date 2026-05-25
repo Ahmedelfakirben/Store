@@ -44,6 +44,7 @@ export default function Navbar() {
                                     src="/logo.jpg"
                                     alt="Shopping by Lina Logo"
                                     fill
+                                    sizes="48px"
                                     className="object-cover"
                                 />
                             </div>
@@ -104,15 +105,35 @@ export default function Navbar() {
                     mobileMenuOpen ? 'opacity-100 visible translate-x-0' : 'opacity-0 invisible translate-x-full'
                 }`}
             >
-                {/* Explicit Close Button Inside Menu */}
-                <div className="absolute top-6 right-6 z-[10002]">
+                {/* Header inside overlay containing Logo and Close Button */}
+                <div className="absolute top-6 left-8 right-6 flex items-center justify-between z-[10002]">
+                    <div className="flex items-center gap-3">
+                        <div className="relative w-10 h-10 rounded-full overflow-hidden border border-primary-100">
+                            <Image
+                                src="/logo.jpg"
+                                alt="Shopping by Lina Logo"
+                                fill
+                                sizes="40px"
+                                className="object-cover"
+                            />
+                        </div>
+                        <div className="flex flex-col">
+                            <span className="text-sm font-serif tracking-wider text-gray-900 font-bold">
+                                Shopping by Lina
+                            </span>
+                            <span className="text-[7px] uppercase tracking-[0.2em] text-gray-400 -mt-0.5">
+                                Fashion Boutique
+                            </span>
+                        </div>
+                    </div>
+                    
                     <button
                         onClick={() => setMobileMenuOpen(false)}
-                        className="flex items-center space-x-2 p-1 text-gray-900"
+                        className="flex items-center space-x-2 p-1 text-gray-900 focus:outline-none"
                         aria-label="Close menu"
                     >
                         <span className="text-xs font-bold uppercase tracking-widest">Fermer</span>
-                        <X className="w-8 h-8" strokeWidth={1.5} />
+                        <X className="w-6 h-6" strokeWidth={1.5} />
                     </button>
                 </div>
 
@@ -149,24 +170,34 @@ export default function Navbar() {
                             </div>
                         </div>
 
-                        {/* Social Action Buttons - More subtle design */}
+                        {/* Social Action Buttons - Designed exactly like the provided screenshot */}
                         <div className="grid grid-cols-2 gap-4">
-                            <a 
-                                href={`https://wa.me/${settings?.phone?.replace(/\s+/g, '') || '212712130088'}?text=${encodeURIComponent("Bonjour ! J'aimerais avoir plus d'informations.")}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center justify-center space-x-2 border-2 border-emerald-100 bg-emerald-50 text-emerald-700 py-4 rounded-xl font-bold active:scale-95 transition-all"
-                            >
-                                <MessageCircle className="w-5 h-5" />
-                                <span className="text-sm">WhatsApp</span>
-                            </a>
+                            {(() => {
+                                let cleanedPhone = (settings?.phone || '212712130088').replace(/\s+/g, '').replace(/^\+/, '')
+                                if (cleanedPhone.startsWith('0')) {
+                                    cleanedPhone = '212' + cleanedPhone.substring(1)
+                                } else if (!cleanedPhone.startsWith('212')) {
+                                    cleanedPhone = '212' + cleanedPhone
+                                }
+                                return (
+                                    <a 
+                                        href={`https://api.whatsapp.com/send?phone=${cleanedPhone}&text=${encodeURIComponent("Bonjour ! J'aimerais avoir plus d'informations.")}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center justify-center space-x-2 border border-[#dcfce7] bg-[#f0fdf4] text-[#15803d] py-3.5 rounded-2xl font-bold active:scale-95 transition-all"
+                                    >
+                                        <MessageCircle className="w-5 h-5 text-[#15803d]" strokeWidth={1.75} />
+                                        <span className="text-sm">WhatsApp</span>
+                                    </a>
+                                )
+                            })()}
                             <a 
                                 href={settings?.instagram_link || 'https://www.instagram.com/shopping__by__lina/'}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-center space-x-2 border-2 border-pink-100 bg-pink-50 text-pink-700 py-4 rounded-xl font-bold active:scale-95 transition-all"
+                                className="flex items-center justify-center space-x-2 border border-[#fbcfe8] bg-[#fdf2f8] text-[#be185d] py-3.5 rounded-2xl font-bold active:scale-95 transition-all"
                             >
-                                <Instagram className="w-5 h-5" />
+                                <Instagram className="w-5 h-5 text-[#be185d]" strokeWidth={1.75} />
                                 <span className="text-sm">Instagram</span>
                             </a>
                         </div>

@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { supabase, Product, Category } from '@/lib/supabase'
 import ProductCard from '@/components/ProductCard'
-import { Search, Award, Truck, ShieldCheck } from 'lucide-react'
+import { Search, Award, Truck, ShieldCheck, Shirt, Heart, Star, ShoppingBag } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useSettings } from '@/hooks/useSettings'
 import PageLoader from '@/components/PageLoader'
@@ -155,10 +155,14 @@ function HomeContent() {
   }, [currentPage])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-brand-pink via-white to-brand-teal">
+    <div className="min-h-screen bg-gradient-to-br from-brand-pink via-white to-brand-teal relative overflow-hidden">
+      {/* Soft ambient blur shapes for a luxury atmosphere */}
+      <div className="absolute top-[15%] left-[-15%] w-[60vw] h-[60vw] max-w-[650px] bg-gradient-to-tr from-primary-200/20 to-accent-200/25 rounded-full blur-[140px] pointer-events-none z-0"></div>
+      <div className="absolute top-[55%] right-[-15%] w-[50vw] h-[50vw] max-w-[550px] bg-gradient-to-br from-brand-teal/25 to-primary-100/20 rounded-full blur-[140px] pointer-events-none z-0"></div>
+
       {/* Hero Section with Parallax Effect */}
       <div
-        className="relative min-h-[95vh] flex items-end px-4 sm:px-8 md:px-16 pb-44 md:pb-48 overflow-hidden"
+        className="relative min-h-[95vh] flex items-center md:items-end pl-4 pr-4 sm:pl-6 sm:pr-6 md:pl-6 lg:pl-10 md:pr-16 pt-24 pb-20 md:pb-40 overflow-hidden"
       >
         {/* Parallax Background Layer */}
         <div 
@@ -168,15 +172,122 @@ function HomeContent() {
           }}
         ></div>
 
-        {/* No Overlay - Full Clarity */}
+        {/* Content Overlay */}
+        <div className="max-w-7xl mx-auto md:mx-0 md:ml-0 md:mr-auto w-full relative z-50 flex flex-col items-center md:items-start select-none pt-12 md:pt-0">
+          
+          {/* Centered column in reference to the main title ARTICLES SPORT */}
+          <div className="w-full max-w-[50rem] flex flex-col items-center text-center">
+            {/* Subtitle */}
+            <span className="text-white text-base sm:text-lg md:text-2xl tracking-[0.25em] md:tracking-[0.4em] font-semibold uppercase mb-2 drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+              LES MEILLEURS
+            </span>
+            
+            {/* Main Title */}
+            <h1 className="text-white text-4xl sm:text-6xl md:text-[5.5rem] font-black tracking-tight leading-none mb-1 drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+              ARTICLES <span className="text-[#f1a4b1] drop-shadow-[0_0_15px_rgba(241,164,177,0.4)]">SPORT</span>
+            </h1>
 
-        <div className="max-w-7xl mx-auto w-full text-center md:text-left relative z-50">
-          <button
-            onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
-            className="bg-white text-primary-600 px-12 py-5 rounded-full font-black text-lg hover:bg-gray-100 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.3)] hover:shadow-primary-500/40 transform hover:-translate-y-1 active:scale-95 adidas-aligned-button"
-          >
-            {t.shopNow}
-          </button>
+            {/* Script Text */}
+            <div className="font-cursive text-white text-5xl sm:text-6xl md:text-[5.5rem] leading-none mb-6 drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)] animate-pulse">
+              pour Filles
+            </div>
+
+            {/* Brand Names Row (Centered in reference to the title above) */}
+            <div className="w-full max-w-[340px] sm:max-w-xl flex justify-center items-center gap-4 sm:gap-8 md:gap-10 text-white mb-6 drop-shadow-[0_2px_6px_rgba(0,0,0,0.5)]">
+              {/* Nike Name */}
+              <span className="text-white font-sans font-extrabold italic text-base sm:text-xl md:text-2xl tracking-wider hover:text-gray-200 transition-colors cursor-pointer">NIKE</span>
+
+              {/* Separator */}
+              <div className="h-5 sm:h-7 md:h-8 w-[1.5px] bg-white/40"></div>
+
+              {/* Adidas Name */}
+              <span className="text-white font-sans font-bold text-base sm:text-xl md:text-2xl tracking-tight hover:text-gray-200 transition-colors cursor-pointer">adidas</span>
+
+              {/* Separator */}
+              <div className="h-5 sm:h-7 md:h-8 w-[1.5px] bg-white/40"></div>
+
+              {/* Puma Name */}
+              <span className="text-white font-sans font-black text-base sm:text-xl md:text-2xl tracking-widest hover:text-gray-200 transition-colors cursor-pointer">PUMA</span>
+            </div>
+
+            {/* Value line with spacing */}
+            <div className="w-full max-w-[280px] sm:max-w-md h-[1px] bg-white/30 mb-4"></div>
+            
+            <div className="w-full max-w-[280px] sm:max-w-md text-center text-white text-xs sm:text-sm tracking-[0.2em] sm:tracking-[0.3em] font-semibold mb-10 uppercase drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+              Style &nbsp;|&nbsp; Qualité &nbsp;|&nbsp; Performance
+            </div>
+
+            {/* Shop Now Button Wrapper for Perfect Centering under Titles */}
+            <div className="w-full max-w-[280px] sm:max-w-md flex justify-center">
+              <button
+                onClick={() => document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })}
+                className="bg-white text-primary-600 px-12 py-5 rounded-full font-black text-lg hover:bg-gray-50 transition-all shadow-[0_15px_35px_rgba(236,72,153,0.25)] hover:shadow-[0_20px_45px_rgba(236,72,153,0.45)] hover:scale-105 transform hover:-translate-y-1.5 active:scale-95 duration-300"
+              >
+                {t.shopNow}
+              </button>
+            </div>
+
+            {/* Bottom Features Row - Centered in reference to the button */}
+            <div className="w-full max-w-[280px] sm:max-w-md flex justify-around items-center mt-12 md:mt-16 text-white select-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+              {/* Nouveautés */}
+              <button 
+                onClick={() => {
+                  setSortBy('newest');
+                  setSelectedCategory('');
+                  setSelectedSize('');
+                  setSearchTerm('');
+                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex flex-col items-center gap-1.5 hover:scale-110 active:scale-95 transition-all duration-250 cursor-pointer focus:outline-none bg-transparent border-none"
+              >
+                <Shirt className="w-7 h-7 text-white stroke-[1.25]" />
+                <span className="text-[9px] text-white/95 tracking-[0.1em] uppercase font-bold">Nouveautés</span>
+              </button>
+
+              {/* Confort */}
+              <button 
+                onClick={() => {
+                  setSelectedCategory('');
+                  setSelectedSize('');
+                  setSearchTerm('');
+                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex flex-col items-center gap-1.5 hover:scale-110 active:scale-95 transition-all duration-250 cursor-pointer focus:outline-none bg-transparent border-none"
+              >
+                <Heart className="w-7 h-7 text-white stroke-[1.25]" />
+                <span className="text-[9px] text-white/95 tracking-[0.1em] uppercase font-bold">Confort</span>
+              </button>
+
+              {/* Tendances */}
+              <button 
+                onClick={() => {
+                  setSortBy('newest');
+                  setSelectedCategory('');
+                  setSelectedSize('');
+                  setSearchTerm('');
+                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex flex-col items-center gap-1.5 hover:scale-110 active:scale-95 transition-all duration-250 cursor-pointer focus:outline-none bg-transparent border-none"
+              >
+                <Star className="w-7 h-7 text-white stroke-[1.25]" />
+                <span className="text-[9px] text-white/95 tracking-[0.1em] uppercase font-bold">Tendances</span>
+              </button>
+
+              {/* Disponible Maintenant */}
+              <button 
+                onClick={() => {
+                  setSelectedCategory('');
+                  setSelectedSize('');
+                  setSearchTerm('');
+                  document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="flex flex-col items-center gap-1.5 hover:scale-110 active:scale-95 transition-all duration-250 cursor-pointer text-center focus:outline-none bg-transparent border-none"
+              >
+                <ShoppingBag className="w-7 h-7 text-white stroke-[1.25]" />
+                <span className="text-[9px] text-white/95 tracking-[0.05em] uppercase font-bold leading-none">Disponible<br/>Maintenant</span>
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Minimal transition fade to brand color */}
@@ -188,8 +299,48 @@ function HomeContent() {
 
       {/* Search and Filters */}
       <div id="products" className="max-w-7xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8 border border-primary-100">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <style dangerouslySetInnerHTML={{ __html: `
+            .no-scrollbar::-webkit-scrollbar {
+                display: none;
+            }
+            .no-scrollbar {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        `}} />
+
+        {/* Category Bubbles Slider */}
+        <div className="mb-6 select-none">
+          <div className="flex items-center space-x-3 overflow-x-auto pb-4 no-scrollbar -mx-4 px-4 sm:mx-0 sm:px-0">
+            <button
+              onClick={() => setSelectedCategory('')}
+              className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-300 border flex-shrink-0 whitespace-nowrap focus:outline-none ${
+                selectedCategory === ''
+                  ? 'bg-gradient-fashion text-white border-transparent shadow-[0_8px_25px_rgba(236,72,153,0.35)] scale-105'
+                  : 'bg-white/80 text-gray-600 border-gray-200/60 hover:bg-white hover:text-gray-950 backdrop-blur-md'
+              }`}
+            >
+              {t.allCategories}
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-6 py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wider uppercase transition-all duration-300 border flex-shrink-0 whitespace-nowrap focus:outline-none ${
+                  selectedCategory === cat.id
+                    ? 'bg-gradient-fashion text-white border-transparent shadow-[0_8px_25px_rgba(236,72,153,0.35)] scale-105'
+                    : 'bg-white/80 text-gray-600 border-gray-200/60 hover:bg-white hover:text-gray-950 backdrop-blur-md'
+                }`}
+              >
+                {cat.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Glassmorphic Search & Filters Bar */}
+        <div className="bg-white/70 backdrop-blur-xl rounded-[2rem] shadow-xl p-6 mb-8 border border-white/50 shadow-[0_20px_50px_rgba(0,0,0,0.03)]">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -198,29 +349,15 @@ function HomeContent() {
                 placeholder={t.searchPlaceholder}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                className="w-full pl-10 pr-4 py-3 border border-gray-200/60 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all bg-white/80 text-gray-900 font-medium"
               />
             </div>
-
-            {/* Category Filter */}
-            <select
-              value={selectedCategory}
-              onChange={(e) => setSelectedCategory(e.target.value)}
-              className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-gray-900 font-medium bg-white"
-            >
-              <option value="" className="text-gray-900">{t.allCategories}</option>
-              {categories.map((cat) => (
-                <option key={cat.id} value={cat.id} className="text-gray-900">
-                  {cat.name}
-                </option>
-              ))}
-            </select>
 
             {/* Size Filter */}
             <select
               value={selectedSize}
               onChange={(e) => setSelectedSize(e.target.value)}
-              className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-gray-900 font-medium bg-white"
+              className="px-4 py-3 border border-gray-200/60 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-gray-900 font-medium bg-white/80"
             >
               <option value="" className="text-gray-900">{t.allSizes}</option>
               {sizes.map((size) => (
@@ -234,7 +371,7 @@ function HomeContent() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-gray-900 font-medium bg-white"
+              className="px-4 py-3 border border-gray-200/60 rounded-xl focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all text-gray-900 font-medium bg-white/80"
             >
               <option value="newest" className="text-gray-900">{t.sortNewest}</option>
               <option value="price_low" className="text-gray-900">{t.sortPriceLowHigh}</option>
@@ -329,36 +466,49 @@ function HomeContent() {
       </div>
 
       {/* Core Values Section */}
-      <div className="max-w-7xl mx-auto px-4 py-24 border-t border-gray-100">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center p-8 rounded-[2.5rem] bg-pink-50/50 border border-pink-100 transition-all hover:shadow-xl hover:-translate-y-1">
-            <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
-              <Award className="w-8 h-8 text-pink-600" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">100% Original</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Nous ne vendons que des marques authentiques et originales. La qualité est notre priorité absolue.
-            </p>
-          </div>
+      <div
+        className="relative px-4 py-24 overflow-hidden"
+        style={{
+          backgroundImage: 'url(/images/bottom-bg.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat'
+        }}
+      >
+        {/* Overlay for text readability */}
+        <div className="absolute inset-0 bg-black/25"></div>
 
-          <div className="text-center p-8 rounded-[2.5rem] bg-purple-50/50 border border-purple-100 transition-all hover:shadow-xl hover:-translate-y-1">
-            <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
-              <Truck className="w-8 h-8 text-purple-600" />
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-8 rounded-[2.5rem] bg-white/15 border border-white/30 transition-all hover:shadow-xl hover:-translate-y-1 backdrop-blur-md">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+                <Award className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">100% Original</h3>
+              <p className="text-white/80 text-sm leading-relaxed">
+                Nous ne vendons que des marques authentiques et originales. La qualité est notre priorité absolue.
+              </p>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Livraison Partout</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Où que vous soyez au Maroc, nous vous livrons à domicile dans les plus brefs délais.
-            </p>
-          </div>
 
-          <div className="text-center p-8 rounded-[2.5rem] bg-emerald-50/50 border border-emerald-100 transition-all hover:shadow-xl hover:-translate-y-1">
-            <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
-              <ShieldCheck className="w-8 h-8 text-emerald-600" />
+            <div className="text-center p-8 rounded-[2.5rem] bg-white/15 border border-white/30 transition-all hover:shadow-xl hover:-translate-y-1 backdrop-blur-md">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+                <Truck className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Livraison Partout</h3>
+              <p className="text-white/80 text-sm leading-relaxed">
+                Où que vous soyez au Maroc, nous vous livrons à domicile dans les plus brefs délais.
+              </p>
             </div>
-            <h3 className="text-xl font-bold text-gray-900 mb-3">Service Premium</h3>
-            <p className="text-gray-500 text-sm leading-relaxed">
-              Un accompagnement personnalisé via WhatsApp pour répondre à toutes vos envies mode.
-            </p>
+
+            <div className="text-center p-8 rounded-[2.5rem] bg-white/15 border border-white/30 transition-all hover:shadow-xl hover:-translate-y-1 backdrop-blur-md">
+              <div className="w-16 h-16 bg-white/20 rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6">
+                <ShieldCheck className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Service Premium</h3>
+              <p className="text-white/80 text-sm leading-relaxed">
+                Un accompagnement personnalisé via WhatsApp pour répondre à toutes vos envies mode.
+              </p>
+            </div>
           </div>
         </div>
       </div>

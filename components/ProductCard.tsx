@@ -16,7 +16,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
     return (
         <Link href={`/product/${product.id}`}>
-            <div className="group bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 overflow-hidden border border-primary-100 hover:border-primary-300 transform hover:-translate-y-1">
+            <div className="group bg-white rounded-2xl shadow-sm hover:shadow-[0_20px_45px_rgba(236,72,153,0.12)] transition-all duration-500 overflow-hidden border border-primary-100/60 hover:border-primary-300/80 transform hover:-translate-y-1.5">
                 {/* Image Container */}
                 <div className="relative aspect-square overflow-hidden bg-gradient-to-br from-primary-50 to-accent-50">
                     {product.image_url ? (
@@ -25,6 +25,7 @@ export default function ProductCard({ product }: ProductCardProps) {
                                 src={product.image_url}
                                 alt={product.name}
                                 fill
+                                sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                                 className="object-cover group-hover:scale-110 transition-transform duration-300"
                                 onError={(e) => {
                                     // Handle image load error (like 403 from TikTok)

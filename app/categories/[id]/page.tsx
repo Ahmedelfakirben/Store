@@ -167,9 +167,10 @@ export default function CategoryDetailPage() {
                 {/* Background Image without Filter */}
                 <div className="absolute inset-0">
                     <Image
-                        src="/female_activewear_background_1778868386635.png"
+                        src="/images/category-header-bg.png"
                         alt={category.name}
                         fill
+                        sizes="100vw"
                         className="object-cover"
                         priority
                     />
@@ -315,13 +316,20 @@ export default function CategoryDetailPage() {
                                 <Link 
                                     key={cat.id} 
                                     href={`/categories/${cat.id}`}
-                                    className="group relative h-48 rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all border border-primary-100"
+                                    className="group relative h-48 rounded-[2.5rem] overflow-hidden shadow-lg hover:shadow-2xl transition-all border border-white/20"
+                                    style={{
+                                        backgroundImage: 'url(/images/bottom-bg.png)',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                        backgroundRepeat: 'no-repeat'
+                                    }}
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-br from-brand-pink via-white to-brand-teal group-hover:scale-110 transition-transform duration-700"></div>
-                                    <div className="absolute inset-0 flex flex-col justify-center p-8 z-10">
-                                        <h3 className="text-2xl font-serif text-gray-900 mb-2">{cat.name}</h3>
-                                        <p className="text-gray-600 text-sm line-clamp-1 group-hover:text-primary-600 transition-colors">{cat.description}</p>
-                                        <div className="mt-4 flex items-center gap-2 text-primary-600 font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all">
+                                    {/* Glassmorphic Overlay */}
+                                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 backdrop-blur-[1px] transition-colors duration-500"></div>
+                                    <div className="absolute inset-0 flex flex-col justify-center p-8 z-10 text-white">
+                                        <h3 className="text-2xl font-serif text-white mb-2 drop-shadow-md">{cat.name}</h3>
+                                        <p className="text-white/80 text-sm line-clamp-1 group-hover:text-white transition-colors drop-shadow-sm">{cat.description}</p>
+                                        <div className="mt-4 flex items-center gap-2 text-white font-bold opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all drop-shadow-md">
                                             Explorer <ChevronRight className="w-4 h-4" />
                                         </div>
                                     </div>

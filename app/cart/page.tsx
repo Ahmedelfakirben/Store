@@ -54,10 +54,17 @@ export default function CartPage() {
 
         message += `\n*TOTAL : ${total.toFixed(2)} DH*\n\nSont-ils disponibles ?`
         
+        let cleanedPhone = settings.phone.replace(/\s+/g, '').replace(/^\+/, '')
+        if (cleanedPhone.startsWith('0')) {
+            cleanedPhone = '212' + cleanedPhone.substring(1)
+        } else if (!cleanedPhone.startsWith('212')) {
+            cleanedPhone = '212' + cleanedPhone
+        }
+
         const encodedMessage = encodeURIComponent(message)
-        const whatsappUrl = `https://wa.me/${settings.phone.replace(/\s+/g, '')}?text=${encodedMessage}`
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${cleanedPhone}&text=${encodedMessage}`
         
-        window.open(whatsappUrl, '_blank')
+        window.location.href = whatsappUrl
     }
 
     return (
@@ -86,6 +93,7 @@ export default function CartPage() {
                                                     src={item.product.image_url}
                                                     alt={item.product.name}
                                                     fill
+                                                    sizes="96px"
                                                     className="object-cover"
                                                 />
                                             ) : (

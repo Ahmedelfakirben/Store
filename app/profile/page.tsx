@@ -194,7 +194,7 @@ export default function ProfilePage() {
         // WhatsApp link with pre-filled message
         const whatsappNumber = '212600000000' // Replace with your actual WhatsApp business number
         const encodedMessage = encodeURIComponent(message)
-        window.open(`https://wa.me/${whatsappNumber}?text=${encodedMessage}`, '_blank')
+        window.open(`https://api.whatsapp.com/send?phone=${whatsappNumber}&text=${encodedMessage}`, '_blank')
     }
 
     const isProfileComplete = formData.phone && formData.address && formData.city

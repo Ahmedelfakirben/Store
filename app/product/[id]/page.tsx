@@ -111,10 +111,18 @@ export default function ProductDetailPage() {
         const sizeInfo = selectedSize ? `Taille : ${selectedSize}` : ''
         const message = `Bonjour ! J'aimerais acheter ce produit :\n\n*${product.name}*\n${sizeInfo}\nPrix : ${product.base_price} DH\n\nLien : ${window.location.href}`
         
+        let cleanedPhone = settings.phone.replace(/\s+/g, '').replace(/^\+/, '')
+        // If the phone starts with standard local 0, replace it with Morocco code '212'
+        if (cleanedPhone.startsWith('0')) {
+            cleanedPhone = '212' + cleanedPhone.substring(1)
+        } else if (!cleanedPhone.startsWith('212')) {
+            cleanedPhone = '212' + cleanedPhone
+        }
+
         const encodedMessage = encodeURIComponent(message)
-        const whatsappUrl = `https://wa.me/${settings.phone.replace(/\s+/g, '')}?text=${encodedMessage}`
+        const whatsappUrl = `https://api.whatsapp.com/send?phone=${cleanedPhone}&text=${encodedMessage}`
         
-        window.open(whatsappUrl, '_blank')
+        window.location.href = whatsappUrl
     }
 
     function handleAddToCart() {
@@ -164,6 +172,7 @@ export default function ProductDetailPage() {
                                         src={selectedImage}
                                         alt={product.name}
                                         fill
+                                        sizes="(max-width: 768px) 100vw, 50vw"
                                         className="object-cover"
                                     />
                                 ) : (
@@ -180,7 +189,7 @@ export default function ProductDetailPage() {
                                         onClick={() => setSelectedImage(product.image_url || '')}
                                         className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImage === product.image_url ? 'border-primary-500 shadow-md' : 'border-transparent hover:border-primary-200'}`}
                                     >
-                                        <Image src={product.image_url || ''} alt="Thumbnail" fill className="object-cover" />
+                                        <Image src={product.image_url || ''} alt="Thumbnail" fill sizes="120px" className="object-cover" />
                                     </button>
                                     {gallery.map((img, idx) => (
                                         <button
@@ -188,7 +197,7 @@ export default function ProductDetailPage() {
                                             onClick={() => setSelectedImage(img.image_url)}
                                             className={`relative aspect-square rounded-lg overflow-hidden border-2 transition-all ${selectedImage === img.image_url ? 'border-primary-500 shadow-md' : 'border-transparent hover:border-primary-200'}`}
                                         >
-                                            <Image src={img.image_url} alt={`Gallery ${idx}`} fill className="object-cover" />
+                                            <Image src={img.image_url} alt={`Gallery ${idx}`} fill sizes="120px" className="object-cover" />
                                         </button>
                                     ))}
                                 </div>
@@ -238,7 +247,7 @@ export default function ProductDetailPage() {
                                 {/* WhatsApp Button (Primary) */}
                                 <button
                                     onClick={handleWhatsAppOrder}
-                                    className="w-full bg-emerald-600 text-white py-4 rounded-xl font-bold hover:bg-emerald-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-3"
+                                    className="w-full bg-gradient-to-r from-emerald-500 to-green-600 text-white py-4 rounded-xl font-bold hover:shadow-[0_8px_30px_rgba(16,185,129,0.4)] transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-3 shadow-lg"
                                 >
                                     <MessageCircle className="w-6 h-6" />
                                     <span>{t.orderViaWhatsApp}</span>
@@ -248,7 +257,7 @@ export default function ProductDetailPage() {
                                 <button
                                     onClick={handleAddToCart}
                                     disabled={maxStock === 0}
-                                    className="w-full border-2 border-primary-200 text-primary-600 py-4 rounded-xl font-semibold hover:bg-primary-50 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+                                    className="w-full border border-primary-200 bg-gradient-to-r from-primary-50 to-pink-50/50 hover:from-primary-100 hover:to-pink-100/50 text-primary-600 py-4 rounded-xl font-bold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2 shadow-sm hover:shadow"
                                 >
                                     <ShoppingCart className="w-5 h-5" />
                                     <span>{maxStock > 0 ? t.addToCart : t.outOfStock}</span>

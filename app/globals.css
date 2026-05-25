@@ -1,6 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Alex+Brush&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.font-cursive {
+  font-family: 'Alex Brush', cursive;
+}
 
 :root {
   --background: #ffffff;
@@ -20,14 +26,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@media (min-width: 768px) {
-  .adidas-aligned-button {
-    margin-left: 50px !important;
-  }
-}
+
 
 .hero-bg-custom {
-  background-image: url(/images/nuevafoto.jpeg);
+  background-image: url(/images/A444D8D1-E599-4010-9682-C3E8167BA6FF.PNG);
   background-repeat: no-repeat;
   /* Mobile: zoom in (cover) and show the left part (text/logos) */
   background-size: cover;
@@ -40,4 +42,17 @@ body {
     background-size: 100% 100%;
     background-position: center 30%;
   }
+}
+
+@keyframes bounceSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-bounce-slow {
+  animation: bounceSlow 3s ease-in-out infinite;
 }

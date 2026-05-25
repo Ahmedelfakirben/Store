@@ -77,16 +77,17 @@ export default function CategoriesPage() {
         <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-accent-50">
             {/* Header */}
             <div
-                className="relative bg-gradient-fashion text-white py-16 px-4 overflow-hidden"
+                className="relative bg-gradient-fashion text-white py-40 px-4 overflow-hidden"
                 style={{
-                    backgroundImage: 'url(/images/categories-background.jpg)',
+                    backgroundImage: 'url(/images/bottom-bg.png)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
+                    backgroundRepeat: 'no-repeat',
+                    minHeight: '420px'
                 }}
             >
                 {/* Overlay for better text readability - minimal opacity */}
-                <div className="absolute inset-0 bg-gradient-to-r from-primary-600/10 to-accent-600/10"></div>
+                <div className="absolute inset-0 bg-black/25"></div>
 
                 <div className="max-w-7xl mx-auto text-center relative z-10">
                     <h1 className="text-5xl font-bold mb-4 drop-shadow-lg">
@@ -147,7 +148,7 @@ export default function CategoriesPage() {
                                         </div>
                                         <button
                                             onClick={() => handleCategoryClick(category.id)}
-                                            className="flex items-center justify-center space-x-2 bg-primary-500 text-white px-5 py-2.5 md:px-6 md:py-3 rounded-full font-semibold hover:bg-primary-600 transition-all shadow-md hover:shadow-lg group text-sm md:text-base"
+                                            className="flex items-center justify-center space-x-2 bg-gradient-to-r from-primary-500 to-accent-500 text-white px-6 py-3 rounded-full font-bold transition-all duration-300 shadow-[0_4px_15px_rgba(236,72,153,0.3)] hover:shadow-[0_6px_20px_rgba(236,72,153,0.5)] hover:scale-105 active:scale-95 group text-sm md:text-base border border-white/10"
                                         >
                                             <span>Voir tout</span>
                                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -156,7 +157,7 @@ export default function CategoriesPage() {
 
                                     {/* Products Preview */}
                                     {products.length === 0 ? (
-                                        <p className="text-gray-500 text-center py-8">Aucun produit dans cette catégorie</p>
+                                        <p className="text-gray-500 text-center py-8">Aucun produit dans cette categoría</p>
                                     ) : viewMode === 'grid' ? (
                                         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3 md:gap-6">
                                             {products.map((product) => (
@@ -177,6 +178,7 @@ export default function CategoriesPage() {
                                                                 src={product.image_url}
                                                                 alt={product.name}
                                                                 fill
+                                                                sizes="80px"
                                                                 className="object-cover group-hover:scale-110 transition-transform"
                                                             />
                                                         ) : (

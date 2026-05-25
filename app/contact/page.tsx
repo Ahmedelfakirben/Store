@@ -53,12 +53,22 @@ export default function ContactPage() {
                                 </div>
                                 <div className="flex flex-col">
                                     <p className="text-sm font-bold text-gray-400 uppercase tracking-wider mb-1">WhatsApp</p>
-                                    <a 
-                                        href={`https://wa.me/${settings?.phone?.replace(/\s+/g, '') || '212712130088'}`} 
-                                        className="text-lg text-emerald-600 font-bold hover:underline"
-                                    >
-                                        {settings?.phone || '0712130088'}
-                                    </a>
+                                    {(() => {
+                                        let cleanedPhone = (settings?.phone || '212712130088').replace(/\s+/g, '').replace(/^\+/, '')
+                                        if (cleanedPhone.startsWith('0')) {
+                                            cleanedPhone = '212' + cleanedPhone.substring(1)
+                                        } else if (!cleanedPhone.startsWith('212')) {
+                                            cleanedPhone = '212' + cleanedPhone
+                                        }
+                                        return (
+                                            <a 
+                                                href={`https://api.whatsapp.com/send?phone=${cleanedPhone}&text=${encodeURIComponent("Bonjour ! J'aimerais avoir plus d'informations.")}`} 
+                                                className="text-lg text-emerald-600 font-bold hover:underline"
+                                            >
+                                                {settings?.phone || '0712130088'}
+                                            </a>
+                                        )
+                                    })()}
                                 </div>
                             </div>
 
@@ -97,15 +107,25 @@ export default function ContactPage() {
                             Contactez-nous directement sur WhatsApp pour toute question sur nos articles ou vos commandes.
                         </p>
                         
-                        <a 
-                            href={`https://wa.me/${settings?.phone?.replace(/\s+/g, '') || '212712130088'}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="w-full bg-emerald-600 text-white py-5 rounded-2xl font-bold text-xl hover:bg-emerald-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-3"
-                        >
-                            <MessageCircle className="w-7 h-7" />
-                            <span>Contacter via WhatsApp</span>
-                        </a>
+                        {(() => {
+                            let cleanedPhone = (settings?.phone || '212712130088').replace(/\s+/g, '').replace(/^\+/, '')
+                            if (cleanedPhone.startsWith('0')) {
+                                cleanedPhone = '212' + cleanedPhone.substring(1)
+                            } else if (!cleanedPhone.startsWith('212')) {
+                                cleanedPhone = '212' + cleanedPhone
+                            }
+                            return (
+                                <a 
+                                    href={`https://api.whatsapp.com/send?phone=${cleanedPhone}&text=${encodeURIComponent("Bonjour ! J'aimerais avoir plus d'informations.")}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="w-full bg-emerald-600 text-white py-5 rounded-2xl font-bold text-xl hover:bg-emerald-700 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center justify-center space-x-3"
+                                >
+                                    <MessageCircle className="w-7 h-7" />
+                                    <span>Contacter via WhatsApp</span>
+                                </a>
+                            )
+                        })()}
                         
                         <div className="mt-8 flex items-center space-x-3 text-gray-400">
                             <Clock className="w-5 h-5" />
