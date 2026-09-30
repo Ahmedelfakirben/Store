@@ -155,7 +155,13 @@ export default function ProductDetailPage() {
             <div className="max-w-7xl mx-auto">
                 {/* Back Button */}
                 <button
-                    onClick={() => router.back()}
+                    onClick={() => {
+                        if (product?.category_id) {
+                            router.push(`/categories/${product.category_id}`);
+                        } else {
+                            router.push('/');
+                        }
+                    }}
                     className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 mb-8 transition-colors"
                 >
                     <ArrowLeft className="w-5 h-5" />
